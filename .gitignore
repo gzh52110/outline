@@ -1,0 +1,8 @@
+# git过滤清单
+
+# 过滤目录
+node_modules/
+
+# 过滤文件
+*.zip
+*.rar
