@@ -42,6 +42,8 @@ for(let i=0;i<20;i++){
     goodslist.push(goods)
 }
 
+app.use(express.urlencoded(),express.json())
+
 // 数据接口
 // 商品列表
 app.get('/goodslist',function(req,res){
@@ -52,17 +54,39 @@ app.get('/goodslist',function(req,res){
 })
 
 // 获取单个商品信息 
-app.get('/goods',(req,res)=>{
-    const {id} = req.query
+// 动态路由：/goods/1,/goods/12
+app.get('/goods/:id/:type?',(req,res)=>{
+    // const {id} = req.query
+    const {id} = req.params;
+    console.log('params',req.params)
     const currentGoods = goodslist.find((item)=>{
         return item.id == id
     })
 
     res.send(currentGoods)
 })
+
+// 增加
+app.post('/goods',(req,res)=>{
+    console.log('添加',req.body);
+    console.log('请求头',req.get('hello'))
+    res.send('添加成功')
+})
+
+// 修改
+app.put('/goods',(req,res)=>{
+    const {id} = req.query
+    const currentGoods = goodslist.find((item)=>{
+        return item.id == id
+    })
+    console.log('update',req.body);
+
+    res.send(currentGoods)
+})
 // 删除商品
 app.delete('/goods',(req,res)=>{
-    const {id} = req.query
+    console.log('delete',req.body)
+    const {id} = req.query;
    goodslist = goodslist.filter(item=>{
        return item.id != id
    })

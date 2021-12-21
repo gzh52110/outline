@@ -110,6 +110,8 @@
         * 分类
             * 内置中间
                 * express.static()
+                * express.urlencoded()
+                * express.json()
             * 自定义中间
                 ```js
                     function(request,response,next){
@@ -121,8 +123,38 @@
             * 第三方中间s
         * 中间件执行过程
 * 请求类型
-    > 接口规范：RESTful
+    > 接口规范：RESTful，根据请求类型与请求路径实现不同的接口
     * get           查
     * post          增
-    * put           改
+    * put/patch     改
     * delete        删
+* 传参
+    * 通过url参数传递
+        > 通过请求地址问号后的参数进行传递数据的方式：?key=value&key=value
+        * 接收：req.query
+    * 请求体传参
+        > 通过请提体传递数据的方式，可以传递**各种类型**的数据
+        * 接收：req.body
+            > 需要相应的中间件格式化每种类型的数据，才能通过req.body获取
+            * x-www-form-urlecoded: express.urlencoded()
+    * 请求头传参
+        > 通过请求头传递数据的方式，浏览器在每个请求中默认传递一些客户端数据
+        * 接收：req.get()
+    * 动态路由传参
+        > 给路径添加变量实现传递数据的方式
+        * 接收：req.params
+        ```js
+            app.get('/goods/:id')
+
+            // 可选参数
+            app.get('/goods/:id/:type?')
+        ```
+* 模块化路由
+    > 把一类路由统一放到一个模块中方便管理与维护
+    * 使用express.Router()中间件连接多个文件
+
+### 练习
+* 使用模块化路由编写符合RESTful规范的数据接口，包含以下模块
+    * 商品模块
+    * 用户模块
+    * 订单模块
