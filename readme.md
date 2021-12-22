@@ -196,3 +196,30 @@
     * 前端
         * 表单上传
         * ajax
+            * FormData
+                > formData可以添加字符类数据，也可以添加非字符类数据（如：文件）
+                * set(name,value)          添加
+                * append(name,value)       追加
+                * delete(name)
+                * get(name)
+                * getAll(name)
+            * File
+                * 通过表单`input[type=file]`获取
+                    * input.files
+* 跨域
+    * 什么是跨域
+        > 当前页面地址与请求地址在协议、域名、端口三者只要有一个不一致则视为跨域
+    * 为什么存在跨域限制
+    * 解决方案
+        * JSONP         少用
+            * 目的：跨域获取数据
+            * 原理：利用script标签没有跨域限制的特点来发起请求
+            * 传参：随着script请求传递<全局函数名>
+            * 缺点：
+                * 只能发起get请求
+                * 并不是真正的ajax
+        * CORS
+            * 设置响应头
+                * Access-Control-Allow-Origin
+        * 服务器代理    
+        

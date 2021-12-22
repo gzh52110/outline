@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>跨域解决方案之JSONP</title>
+</head>
+<body>
+    <h1>跨域解决方案之JSONP</h1>
+    <button id="btn">jsonp</button>
+    <div id="user">
+
+    </div>
+    <script>
+        /*
+            跨域解决方案之JSONP
+            * 目的：跨域获取数据
+            * 原理：利用script标签没有跨域限制的特点来发起请求
+            * 传参：随着script请求传递<全局函数名>
+
+            script标签src属性发起的请求，不一定为js文件，只要响应的内容为js代码就没有问题
+        */
+
+        const btn = document.querySelector('#btn')
+        const user = document.querySelector('#user')
+
+        // ajax请求
+        // const xhr = new XMLHttpRequest()
+        // xhr.open('get','http://localhost:2110/api/jsonp',true)
+        // xhr.send();
+
+        // 封装一个全局函数，并发函数名传递给后端
+        function getData(data){
+            console.log('data',data)
+            user.innerHTML = JSON.stringify(data);
+        }
+
+        btn.onclick = function(){
+            // 创建一个Script标签并写入页面
+            const script = document.createElement('script');
+            script.src = 'http://localhost:2110/api/jsonp?callback=getData'
+
+            document.body.appendChild(script);
+        }
+
+
+    </script>
+    <!-- <script src="http://localhost:2110/api/jsonp?callback=getData">
+    </script> -->
+</body>
+</html>

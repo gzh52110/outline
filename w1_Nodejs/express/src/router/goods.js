@@ -24,6 +24,11 @@ for(let i=0;i<20;i++){
 router.get('/list',function(req,res){
     console.log('goodslist');
 
+    // 设置响应头
+    // res.set({
+    //     'Access-Control-Allow-Origin':"*"
+    // })
+
 
     res.send(goodslist);
 })
@@ -37,6 +42,7 @@ router.get('/:id/:type?',(req,res)=>{
     const currentGoods = goodslist.find((item)=>{
         return item.id == id
     })
+    
 
     res.send(currentGoods)
 })

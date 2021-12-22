@@ -47,9 +47,10 @@ let upload = multer({
 const singleMiddleware = upload.single('avatar')
 
 router.post('/avatar', singleMiddleware, (req, res) => {
-    // req.body
-    // 使用multer中间件后，会把请求体中的单个文件数据格式化到req.file
-    console.log('req.file', req.file)
+    // 使用multer中间件后，
+    // 会把请求体中的单个文件数据格式化到req.file
+    // 把普通文本类型数据格式化到：req.body
+    console.log('req.file', req.file, req.body)
     res.send('上传成功')
 })
 
