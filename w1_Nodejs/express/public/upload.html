@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片上传</title>
+</head>
+<body>
+    <h1>图片上传</h1>
+    <form method="post" action="http://localhost:2110/api/upload/avatar" enctype="multipart/form-data" target="_blank">
+        <input type="file" name="avatar" />
+        <button type="submit">上传头像</button>
+    </form>
+    <form method="post" action="http://localhost:2110/api/upload/goods" enctype="multipart/form-data" target="_blank">
+        <input type="file" name="goods" multiple />
+        <button type="submit">上传商品</button>
+    </form>
+</body>
+</html>

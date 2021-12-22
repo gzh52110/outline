@@ -6,14 +6,14 @@ module.exports = router;
 
 
 
-// get /user/login
+// get /api/user/login
 router.get('/login',function(req,res){
     console.log('login');
 
     res.send('登录成功');
 })
 
-// post /user/reg
+// post /api/user/reg
 router.post('/reg',function(req,res){
     console.log('reg',req.body);
 

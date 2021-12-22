@@ -112,6 +112,7 @@
                 * express.static()
                 * express.urlencoded()
                 * express.json()
+                * express.Router()
             * 自定义中间
                 ```js
                     function(request,response,next){
@@ -137,6 +138,7 @@
         * 接收：req.body
             > 需要相应的中间件格式化每种类型的数据，才能通过req.body获取
             * x-www-form-urlecoded: express.urlencoded()
+            * json: express.json()
     * 请求头传参
         > 通过请求头传递数据的方式，浏览器在每个请求中默认传递一些客户端数据
         * 接收：req.get()
@@ -158,3 +160,39 @@
     * 商品模块
     * 用户模块
     * 订单模块
+
+
+## day1-3
+
+### 知识点
+* js数据类型
+    * Number
+    * String
+    * Boolean
+    * Null
+    * Undefined
+    * Symbol
+    * Object
+    * BigInt
+    ```js
+        let a = 10;
+        let b = a;
+
+        let c = {id:1}; // #a123
+        let d = c;
+
+        let e = Symbol()
+        let f = Symbol()
+    ```
+* 图片上传
+    > 使用multer第三方中间件
+    * 后端
+        * 简单上传
+            * dest
+        * 控制细节上传
+            * storage
+            * limits
+            * fileFilter
+    * 前端
+        * 表单上传
+        * ajax
