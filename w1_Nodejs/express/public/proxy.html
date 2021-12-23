@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>跨域解决方案之服务器代理</title>
+</head>
+<body>
+    <h1>跨域解决方案之服务器代理</h1>
+    <div class="list">
+
+    </div>
+    <script>
+        const xhr = new XMLHttpRequest()
+        xhr.onload = function(){
+            const data = xhr.response
+            console.log('data',data)
+        }
+        // 直接请求目标地址：跨域限制
+        // xhr.open('get','https://offer.qfh5.cn/api/iq?sort=hot&total=false',true)
+
+        // 使用服务器代理实现请求
+        // xhr.open('get','http://localhost:2110/api/offer/iq?sort=difficulty&total=false')
+        xhr.open('get','http://localhost:2110/api/offer/company')
+
+        xhr.responseType = 'json';
+        xhr.send();
+    </script>
+        
+</body>
+</html>

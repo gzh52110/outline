@@ -172,8 +172,8 @@
     * Null
     * Undefined
     * Symbol
-    * Object
     * BigInt
+    * Object
     ```js
         let a = 10;
         let b = a;
@@ -223,3 +223,101 @@
                 * Access-Control-Allow-Origin
         * 服务器代理    
         
+
+## day1-4
+
+### 面试题
+* 深拷贝与浅拷贝
+    * 基本数据类型
+    * 引用数据类型
+    ```js
+        let a = 'hello'
+        let b = a;
+
+        // 引用数据类型
+        let c = {username:'力宏',age:40}
+        let d = c;
+
+        c.age = 42;
+        d.age;// 42
+
+        // 浅拷贝：在内存中创建另外一个一摸一样的对象
+        let e = {};//{username:'力宏',age:40}
+        for(let key in c){
+            e[key] = c[key]
+        }
+
+        // 深拷贝：嵌套循环，递归（在函数中调用自己）
+        let user = {
+            username:'云迪',
+            age:39,
+            // nickname:'#abc'
+            nickname:['钢琴家','力宏基友']
+        }
+        let newUser = {};// {username:'云迪',age:39,nickname:['钢琴家','力宏基友']}
+        for(let key in user){
+            // 1. newUser['username'] = user['username']
+            // 2. newUser['age'] = user['age']
+            // 3. newUser['nickname'] = user['nickname'];//#abc
+                // newUser.nickname = '#abc'
+            if(Array.isArray(user[key])){
+                //newUser[key] = user[key].map(function(item){
+                //    return item;
+                //})
+                newUser[key] = user[key].map(item=>item)
+                
+            }else if(typeof user[key]==='object'){
+                const mewItem = {}
+                const oldItem = user[key]
+                for(let k in oldItem){
+                    mewItem[k] = oldItem[k]
+                }
+                newUser[key] = mewItem
+            }else{
+                newUser[key] = user[key]
+
+            }
+        }
+
+    ```
+* 递归
+    ```js
+        function deepCopy(old){
+            // old旧数据
+        }
+
+        const res = deepCopy({a:10,b:20})
+    ```
+* git
+    * 回退： git reset
+
+* 查看文档的能力
+    * 技术文档
+    * 需求文档
+* jquery方法链式调用的原理
+    > 在每个方法执行完成后返回jquery实例(return this)
+    ```js
+        $('div')
+        .attr('a','10') => $('div')
+        .addClass('box') => $('div')
+        .on('click',()=>{}) => $('div')
+    ```
+* let与var的区别
+    * var声明的变量会自动成为window对象的属性，而let不会
+
+### 知识点
+
+* CORS复杂跨域
+    > 浏览器会自动发起一个OPTIONS请求（预检请求），只有正确地响应OPTIONS请求才能实现复杂跨域
+    * Access-Control-Allow-Origin
+        * 单个域名
+        * `*`
+        * 支持多个域名：白名单
+    * Access-Control-Allow-Methods: 允许请求类型
+        > 'GET,POST,PUT,DELETE'
+    * Access-Control-Allow-Headers: 允许请求头
+
+
+### 练习
+* 组队（2人一个团队）
+* 找一个项目，代理它的数据

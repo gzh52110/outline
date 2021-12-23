@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深拷贝</title>
+</head>
+<body>
+    <h1>深拷贝</h1>
+
+    <script>
+        // 封装递归函数实现深拷贝
+        function deepCopy(old){
+            // old旧数据
+            const newObj = {}
+
+            for(let key in old){
+                // 数组
+                // 对象
+                if(typeof old[key] === 'object' && old[key] !== null){
+                    newObj[key] = deepCopy(old[key])
+                }else{
+                    newObj[key] = old[key]
+                }
+            }
+
+            return newObj
+        }
+
+
+        let obj = {username:'laoxie',password:123456}
+        let obj2 = {
+            username:'laoxie',
+            password:123456,
+            score:{
+                chinese:130,
+                math:{
+                    one:148,
+                    two:48,
+                },
+                english:59
+            }
+        }
+        const newUser = deepCopy(obj)
+        const newUser2 = deepCopy(obj2)
+
+        console.log('newUser',newUser)
+        console.log('newUser2',newUser2)
+    </script>
+</body>
+</html>
