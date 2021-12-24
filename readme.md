@@ -306,7 +306,7 @@
     * var声明的变量会自动成为window对象的属性，而let不会
 
 ### 知识点
-
+* CORS（Cross Origin Resource Sharing）跨域资源共享
 * CORS复杂跨域
     > 浏览器会自动发起一个OPTIONS请求（预检请求），只有正确地响应OPTIONS请求才能实现复杂跨域
     * Access-Control-Allow-Origin
@@ -316,8 +316,117 @@
     * Access-Control-Allow-Methods: 允许请求类型
         > 'GET,POST,PUT,DELETE'
     * Access-Control-Allow-Headers: 允许请求头
+* 服务器代理
+    * http-proxy-middleware
+    ```js
+        const {createProxyMiddleware} = require('http-proxy-middleware')
+
+        createProxyMiddleware({
+            target,
+            changeOrigin,
+            pathRewrite:{
+
+            }
+        });// createProxyMiddleWare is not a function
+    ```
 
 
 ### 练习
 * 组队（2人一个团队）
 * 找一个项目，代理它的数据
+
+
+## day1-5
+
+### 面试题
+* 扩展运算符：...
+    * 展开
+        * 函数实参
+        * 复制
+    * 剩余
+        * 函数形参
+        * 解构
+```js
+    function sum(...num){
+        // num: [10,20]
+        // reduce(callback,initValue)
+        // [10,20,30,40]
+        num.reduce(function(prev,item){
+            // 1. prev=0,item=10 => 0+10
+            // 2. prev=10,item=20 =>10+20
+            // 3. prev=30,item=30 =>30+30
+            // 4. prev=60,item=40 =>60+40
+            return prev+item
+        },0)
+        return num.reduce((prev,item,idx,arr)=>prev+item,0)
+    }
+    sum(10,20);//30
+    sum(10,20,30);//60
+    sum(10,20,30,40);//100
+```
+
+### 知识点
+* 页面渲染模式
+    * 客户端渲染：BSR(Browser Side Rendering)
+        > html结构在客户端（浏览器）生成并渲染
+        * 优点
+            * 前后端分离
+            * 局部刷新
+            * 良好的用户体验
+        * 缺点
+            * 请求数量过多，影响渲染速度
+    * 服务端渲染：SSR（Server Side Rendering）
+        > html结构在服务端生成，并一次性返回给客户端渲染
+        * 模板引擎
+
+
+* mysql数据库
+    > 在NodeJS中使用mysql
+    * 安装驱动
+        ```bash
+            npm i mysql
+        ```
+    * 连接
+        * 使用连接对象方式
+            ```js
+                //创建连接对象，并配置参数
+                var connection = mysql.createConnection({
+                    host     : 'localhost',
+                    user     : 'root',
+                    password : '',
+                    database : 'jiaoxue'
+                });
+                connection.connect();
+                connnection.query()
+                connection.end();
+            ```
+        * 使用连接池方式（官方是推荐）
+            > 使用连接池，默认会在连接池中创建10个连接对象（connectionLimit），使用完成自动放回连接池，不需要手动关闭
+            ```js
+                var pool  = mysql.createPool({
+                    host     : 'localhost',
+                    user     : 'root',
+                    password : '',
+                    //port: 3306,
+                    database: 'jiaoxue',
+                    //multipleStatements: true
+                });
+
+                pool.query('select * from student', function(error, rows){
+                    console.log(rows);
+                });
+            ```
+* try...catch
+    ```js
+        try{
+            // 尝试执行这里的代码，
+            // 如果顺利执行完这里的代码，则忽略catch
+            // 如果有错误或promise对象的状态为reject，则执行catch中的代码
+        }catch(err){
+
+        }
+    ```
+### 练习
+* 爬取目标网站数据，并写入数据库
+* 编写接口
+    
