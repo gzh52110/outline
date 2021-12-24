@@ -42,3 +42,8 @@ router.get('/goodslist',(req,res)=>{
     </html>`
     res.send(html);
 })
+
+router.get('/list',(req,res)=>{
+    // 读取数据库，
+    res.render('goodslist',{title:'goodslist',goodslist})
+})

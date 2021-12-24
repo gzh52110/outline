@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品列表</title>
+</head>
+<body>
+    <h1>商品列表</h1>
+    <h4><%=title%></h4>
+    <div class="goodslist">
+        <ul>
+            <!-- 遍历数据 -->
+            <% goodslist.forEach(item=>{ %>
+                <li>
+                    <img src="<%=item.imgurl%>" />
+                    <h4><%=item.name%></h4>
+                    <p class="price">价格：<%=item.price%></p>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+</body>
+</html>

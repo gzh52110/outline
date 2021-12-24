@@ -10,6 +10,10 @@ const app = express()
 
 app.use(express.static(path.join(__dirname,'../public')))
 
+// 设置模板引擎
+app.set('views', path.join(__dirname,'./template'));
+app.set('view engine', 'ejs');
+
 // 数据接口
 app.use('/api',router)
 
