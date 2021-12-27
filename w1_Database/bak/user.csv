@@ -1,0 +1,4 @@
+_id,age,gender,password,role,username
+61c96851ee296a5bfc62ef22,28,女,1234,vip,xiaoxie
+61c96851ee296a5bfc62ef23,26,女,321,vip,jingjing
+61c96851ee296a5bfc62ef24,38,男,12345,svip,tiantian

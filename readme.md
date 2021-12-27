@@ -419,6 +419,7 @@
                     console.log(rows);
                 });
             ```
+        * 学会拼接sql
 * try...catch
     ```js
         try{
@@ -447,6 +448,17 @@
             1. 请求页面所有html结构
             2. 筛选需要的html结构
             3. 提取数据
+            4. 下载图片
+                > 把图片写入本地
+                * fs.writeFile()
+                * fs.createWriteStream()    推荐
     * 使用工具
 
     * 反爬机制
+* 数据库
+    * 关系型数据库
+        * Oracle
+        * MySQL/MariaDB
+        * SQLServer
+    * 非关系型数据库
+        * MongoDB

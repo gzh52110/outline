@@ -44,6 +44,6 @@ router.get('/goodslist',(req,res)=>{
 })
 
 router.get('/list',(req,res)=>{
-    // 读取数据库，
+    // 读取数据库
     res.render('goodslist',{title:'goodslist',goodslist})
 })

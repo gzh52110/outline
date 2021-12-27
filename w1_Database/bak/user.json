@@ -1,0 +1,28 @@
+[{
+  "_id": {
+    "$oid": "61c96851ee296a5bfc62ef22"
+  },
+  "username": "xiaoxie",
+  "password": "1234",
+  "role": "vip",
+  "gender": "女",
+  "age": 28
+},{
+  "_id": {
+    "$oid": "61c96851ee296a5bfc62ef23"
+  },
+  "username": "jingjing",
+  "password": "321",
+  "role": "vip",
+  "gender": "女",
+  "age": 26
+},{
+  "_id": {
+    "$oid": "61c96851ee296a5bfc62ef24"
+  },
+  "username": "tiantian",
+  "password": "12345",
+  "role": "svip",
+  "gender": "男",
+  "age": 38
+}]

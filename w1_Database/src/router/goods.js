@@ -7,7 +7,20 @@ const mysql = require('../db/mysql')
 // 获取商品列表
 // get /api/goods/list
 router.get('/list',async (req,res)=>{
+    const {page=1,size=10,sort,desc} = req.query;
+    const idx = (page-1)*size;
+    const qty = Number(size);
     let sql = `select * from goods`;
+
+    if(sort){
+        sql += ` order by ${sort}`
+        if(desc){
+            sql += ' desc';
+        }
+    }
+
+
+    sql += ` limit ${idx},${qty}`
 
     console.log('sql',sql);
 
