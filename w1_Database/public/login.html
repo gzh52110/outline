@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户登录</title>
+    <link rel="stylesheet" href="./css/bootstrap.css">
+</head>
+
+<body>
+    <h1>用户登录</h1>
+    <div class="container">
+        <div class="mb-3">
+            <label for="username" class="form-label">用户名</label>
+            <input type="text" class="form-control" id="username">
+            <div class="invalid-feedback">
+                用户名不能为空
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">密码</label>
+            <input type="password" class="form-control" id="password">
+            <div class="invalid-feedback">
+                密码不能为空
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success btn-lg btnSubmit">登录</button>
+
+    </div>
+    <script>
+        const username = document.querySelector('#username')
+        const password = document.querySelector('#password')
+        const btnSubmit = document.querySelector('.btnSubmit')
+
+        // 自动写入用户名
+        const params = new URLSearchParams(location.search)
+        const _username = params.get('username')
+        username.value = _username;
+        
+
+        btnSubmit.onclick = function(){
+            const _username = username.value;
+            const _password = password.value;
+
+            if(!_username){
+                username.classList.add('is-invalid')
+                username.classList.remove('is-valid')
+                return;
+            }else{
+                username.classList.remove('is-invalid')
+                username.classList.add('is-valid')
+            }
+            if(!_password){
+                password.classList.add('is-invalid')
+                password.classList.remove('is-valid')
+                return;
+            }else{
+                password.classList.remove('is-invalid')
+                password.classList.add('is-valid')
+            }
+            const xhr = new XMLHttpRequest()
+            xhr.onload = function(){
+                const data = JSON.parse(xhr.responseText);
+                console.log('data',data);
+                if(data.code===200){
+                    location.href = 'index.html'
+                }
+            }
+            xhr.open('get',`http://localhost:2110/api/user/login?username=${_username}&password=${_password}`,true);
+            // 设置content-type请求头
+            xhr.setRequestHeader('Content-Type','x-www-form-urlencoded')
+            xhr.send()
+        }
+    </script>
+</body>
+
+</html>

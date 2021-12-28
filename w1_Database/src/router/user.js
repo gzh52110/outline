@@ -83,31 +83,37 @@ router.post('/reg', async (req, res) => {
 
     // @mongodb
     const result = await db.insert(colName, { username, password })
-    console.log('result', result)
+    console.log('username', username,password)
     if (result) {
-        res.send('注册成功')
+        res.send({
+            code:200,
+            msg:'success'
+        })
     } else {
-        res.send('注册失败')
+        res.send({
+            code:400,
+            msg:'fail'
+        })
     }
 })
 
 // 登录
 router.get('/login', async (req, res) => {
-    const { username, password } = req.query;
-    let sql = `select * from user where username='${username}' and password='${password}'`
+    // const { username, password } = req.query;
+    // let sql = `select * from user where username='${username}' and password='${password}'`
 
-    console.log('sql', sql);
+    // console.log('sql', sql);
 
-    try {
-        const result = await mysql.query(sql)
-        if (result.length > 0) {
-            res.send(result)
-        } else {
-            res.send('用户名或密码错误')
-        }
-    } catch (err) {
-        res.send('登录失败')
-    }
+    // try {
+    //     const result = await mysql.query(sql)
+    //     if (result.length > 0) {
+    //         res.send(result)
+    //     } else {
+    //         res.send('用户名或密码错误')
+    //     }
+    // } catch (err) {
+    //     res.send('登录失败')
+    // }
 })
 
 
@@ -127,6 +133,26 @@ router.get('/list', async (req, res) => {
     })
 
     res.send(result);
+})
+
+// 校验用户名是否存在
+router.get('/check', async (req, res) => {
+    const { username } = req.query;
+
+    const result = await db.query(colName, {username})
+
+    if(result.length>0){
+        res.send({
+            code:400,
+            msg:'user is exists'
+        })
+    }else{
+        res.send({
+            code:200,
+            msg:'ok'
+        });
+
+    }
 })
 
 // 获取单个用户信息

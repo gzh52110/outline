@@ -491,8 +491,22 @@
     * 安装驱动
         * mongodb（官方）
         * mongoose
-
+* CRUD封装
+    * insert
+    * del
+    * update
+    * query
 
 * 过滤字段
     * mysql: `select * from user`
     * mongo: db.user.find({},{projection})
+
+* 统一前后端数据格式
+    * 后端响应一个json数据，格式为：{code:200,msg:'success'}
+
+* 表单事件
+    * blur      失去焦点触发
+    * change    内容有修改且失去焦点时触发
+    * input     内容修改时触发
+* UI框架
+    * Bootstrap
