@@ -447,13 +447,13 @@
         * 提取需要的数据
             1. 请求页面所有html结构
             2. 筛选需要的html结构
-            3. 提取数据
+            3. 提取数据，并写入数据库
             4. 下载图片
                 > 把图片写入本地
                 * fs.writeFile()
                 * fs.createWriteStream()    推荐
     * 使用工具
-
+        * superagent
     * 反爬机制
 * 数据库
     * 关系型数据库
@@ -462,3 +462,37 @@
         * SQLServer
     * 非关系型数据库
         * MongoDB
+
+    * mySQL与MongoDB对比
+                    数据库         表/集合           数据
+        * mySQL     database       table            row
+        * mongo     database       collection       document
+    * 安装
+        > 不要出现中文路径
+    * 使用
+        * 命令行
+            > 环境变量
+        * 可视化工具
+            * compass
+            * robo3T
+## day2-2
+
+### 面试题
+* 动态路由
+    > request.params
+* getElementsByTagName()与querySelectorAll()
+    * HTMLCollection(动态)与NodeList
+    * 伪数组
+    * 原型
+        * forEach()
+
+### 知识点
+* 在NodeJS中使用mongodb
+    * 安装驱动
+        * mongodb（官方）
+        * mongoose
+
+
+* 过滤字段
+    * mysql: `select * from user`
+    * mongo: db.user.find({},{projection})
