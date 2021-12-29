@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 module.exports = router;
 
+const { formatData,formatParams,token } = require('../utils')
 const db = require('../db')
 const colName = 'user';
 
@@ -83,23 +84,30 @@ router.post('/reg', async (req, res) => {
 
     // @mongodb
     const result = await db.insert(colName, { username, password })
-    console.log('username', username,password)
-    if (result) {
-        res.send({
-            code:200,
-            msg:'success'
+    console.log('username', username, password)
+    // if (result) {
+    //     res.send({
+    //         code: 200,
+    //         msg: 'success',
+    //         data: []
+    //     })
+    // } else {
+    //     res.send({
+    //         code: 400,
+    //         msg: 'fail',
+    //         data: []
+    //     })
+    // }
+    res.send(
+        formatData({
+            code: result ? 200 : 400
         })
-    } else {
-        res.send({
-            code:400,
-            msg:'fail'
-        })
-    }
+    )
 })
 
 // 登录
 router.get('/login', async (req, res) => {
-    // const { username, password } = req.query;
+    const { username, password,mdl } = req.query;//'true','false'
     // let sql = `select * from user where username='${username}' and password='${password}'`
 
     // console.log('sql', sql);
@@ -114,6 +122,59 @@ router.get('/login', async (req, res) => {
     // } catch (err) {
     //     res.send('登录失败')
     // }
+
+    const result = await db.query(colName, { username, password }, { projection: { password: 0 } })
+
+    // 用户登录成功
+    if (result.length > 0) {
+        // res.send({
+        //     code: 200,
+        //     msg: 'success',
+        //     data: result
+        // });
+        
+        // 判断是否选择7天免登录
+        let authorization
+        if(mdl === 'true'){
+            // 生成一个有效期为7天的token
+            authorization = token.create({username},'7d')
+        }else{
+            authorization = token.create({username})
+        }
+        // 在后端设置cookie:设置`Set-Cookie`响应头
+        // res.set({
+        //     'Set-Cookie':`authorization=${authorization}`
+        // })
+        result[0].authorization = authorization;
+        res.send(
+            formatData.success(result)
+        )
+
+    } else {
+        // res.send({
+        //     code: 400,
+        //     msg: 'fail',
+        //     data: []
+        // })
+        res.send(
+            // formatData({code:400})
+            formatData.fail()
+        )
+
+    }
+})
+
+// 校验用户token
+router.get('/verify',(req,res)=>{
+    // 获取前端传入的token
+    const authorization = req.get('Authorization')
+    console.log('authorization',authorization)
+    const result = token.verify(authorization)
+    res.send(
+        formatData({
+            code: result ? 200 : 400
+        })
+    )
 })
 
 
@@ -132,26 +193,37 @@ router.get('/list', async (req, res) => {
         }
     })
 
-    res.send(result);
+    // res.send(result);
+    res.send(
+        // formatData({data:result})
+        formatData.success(result)
+    )
 })
 
 // 校验用户名是否存在
 router.get('/check', async (req, res) => {
     const { username } = req.query;
 
-    const result = await db.query(colName, {username})
+    const result = await db.query(colName, { username })
 
-    if(result.length>0){
-        res.send({
-            code:400,
-            msg:'user is exists'
-        })
-    }else{
-        res.send({
-            code:200,
-            msg:'ok'
-        });
-
+    if (result.length > 0) {
+        // res.send({
+        //     code: 400,
+        //     msg: 'user is exists',
+        //     data: []
+        // })
+        res.send(
+            formatData({ code: 400, msg: 'user is exists' })
+        )
+    } else {
+        // res.send({
+        //     code: 200,
+        //     msg: 'ok',
+        //     data: []
+        // });
+        res.send(
+            formatData()
+        )
     }
 })
 
@@ -165,21 +237,22 @@ router.put('/:id', async (req, res) => {
     const { id } = req.params;
     const { password, age, role, gender } = req.body;
 
-    // 练习：封装一个方法formatData()实现参数处理
-    // const newData = formatData(req.body,['password','age','role','gender'])
-    const newData = {}
-    if (password) {
-        newData.password = password
-    }
-    if (age) {
-        newData.age = age
-    }
-    if (role) {
-        newData.role = role
-    }
-    if (gender) {
-        newData.gender = gender
-    }
+    // 练习：封装一个方法formatParams()实现参数处理
+    const newData = formatParams(req.body,['password',{key:'age',type:'number'},'role','gender']);
+    
+    // const newData = {}
+    // if (password) {
+    //     newData.password = password
+    // }
+    // if (age) {
+    //     newData.age = age
+    // }
+    // if (role) {
+    //     newData.role = role
+    // }
+    // if (gender) {
+    //     newData.gender = gender
+    // }
 
     let result;
     try {
@@ -189,11 +262,21 @@ router.put('/:id', async (req, res) => {
         result = false;
     }
 
-    res.send(result ? '更新成功' : '更新失败')
+    // res.send(result ? '更新成功' : '更新失败')
+    res.send(
+        formatData({
+            code: result ? 200 : 400
+        })
+    )
 })
 router.delete('/:id', async (req, res) => {
     const { id } = req.params;
     const result = await db.del(colName, { _id: id })
-    res.send(result ? '删除成功' : '删除失败')
+    // res.send(result ? '删除成功' : '删除失败')
+    res.send(
+        formatData({
+            code: result ? 200 : 400
+        })
+    )
 })
 

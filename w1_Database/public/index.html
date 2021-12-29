@@ -1,12 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>首页</title>
+    <link rel="stylesheet" href="./css/bootstrap.css">
 </head>
+
 <body>
-    <h1>首页</h1>
+    <div class="container-fluid">
+        <div class="header">
+            <div class="row">
+                <div class="col">
+                    Logo
+                </div>
+                <div class="col text-end">
+                    <span class="username"></span>
+                    <button class="btn btn-outline-danger btn-sm">退出</button>
+                </div>
+            </div>
+
+        </div>
+        <h1>首页</h1>
+
+    </div>
+    <script>
+        const header = document.querySelector('.header')
+        const username = header.querySelector('.username')
+        // 可能得到的数据：'{"username":"laoxie"}',"sjdlafkj",null
+        let userInfo = localStorage.getItem('userInfo');
+        try {
+            userInfo = JSON.parse(userInfo) || {}
+        } catch (err) {
+            userInfo = {}
+        }
+
+        console.log('userInfo',userInfo)
+
+        // 校验用户token，判断登录是否有效
+        const xhr = new XMLHttpRequest()
+        xhr.onload = function(){
+            const data = xhr.response
+            if(data.code === 200){
+                // 校验成功:token没有被篡改也没有失效
+                username.innerText = userInfo.username;
+            }else{
+                // localStorage.removeItem('userInfo')
+            }
+        }
+        xhr.responseType = 'json'
+        xhr.open('get','http://localhost:2110/api/user/verify',true)
+        // 通过请求头发送token
+        xhr.setRequestHeader('Authorization',userInfo.authorization)
+        xhr.send()
+        
+    </script>
 </body>
+
 </html>

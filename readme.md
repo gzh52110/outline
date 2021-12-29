@@ -497,6 +497,13 @@
     * update
     * query
 
+* ObjectId
+    > string -> Object
+* 限制数量筛选排序
+    * limit(qty)
+    * skip(qty)
+    * sort({key:-1})
+
 * 过滤字段
     * mysql: `select * from user`
     * mongo: db.user.find({},{projection})
@@ -510,3 +517,54 @@
     * input     内容修改时触发
 * UI框架
     * Bootstrap
+
+* URL与URLSearchParams
+
+
+## day2-3
+
+### 面试题
+* js文件加载时间较长（10s），如何优化
+    > js的加载与执行会**阻塞**页面的渲染
+    ```js
+        <title>
+        <link>
+        <script src="xxx.js"></script>
+        <body>
+            <div>hello</div>
+        </body>
+    ```
+    * script标签属性
+        * src
+        * type
+            > 默认值：text/javascript
+        * defer 推迟
+        * async 异步
+    * 解决方案
+        * 把script放最后
+        * defer
+            > 推迟执行，页面渲染与js加载同时进行，互不影响，待html页面内容渲染完成后才执行js代码
+        * async
+            > 异步加载，页面渲染与js加载同时进行，互不影响，但js加载完成后会立即执行（js的执行会阻塞html渲染）
+
+* 令牌token
+    > 一个加密后且具有有效期的字符串
+    * 在服务器生成并返回给**前端保存**
+    * 前端每次请求发送token到服务器校验
+        > 通过校验token的有效性判断用户是否登录
+    * 操作
+        * 生成：加密
+            1. 用户使用用户名和密码登录
+            2. 登录成功且选择7天免登录，则生成一个有效期为7天的token
+            3. 把token返回前端保存
+        * 校验：解密
+            > 如果被篡改或超过有效期，则无法校验通过
+            1. 发送token到服务器校验，并返回校验结果
+                > 请求头发送
+            2. 前端根据校验结果显示页面状态
+    * 第三方模块：jsonwebtoken
+
+    * 加密解密
+        ```
+            a -> 3456
+        ```

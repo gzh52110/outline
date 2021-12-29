@@ -26,12 +26,19 @@
                 密码不能为空
             </div>
         </div>
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="mdl" checked>
+            <label class="form-check-label" for="mdl">
+              七天免登录
+            </label>
+          </div>
         <button type="submit" class="btn btn-success btn-lg btnSubmit">登录</button>
 
     </div>
     <script>
         const username = document.querySelector('#username')
         const password = document.querySelector('#password')
+        const mdl = document.querySelector('#mdl')
         const btnSubmit = document.querySelector('.btnSubmit')
 
         // 自动写入用户名
@@ -43,6 +50,7 @@
         btnSubmit.onclick = function(){
             const _username = username.value;
             const _password = password.value;
+            const _mdl = mdl.checked
 
             if(!_username){
                 username.classList.add('is-invalid')
@@ -62,15 +70,22 @@
             }
             const xhr = new XMLHttpRequest()
             xhr.onload = function(){
-                const data = JSON.parse(xhr.responseText);
+                const data = xhr.response;//JSON.parse(xhr.responseText);
                 console.log('data',data);
+                // data={code,msg,data}
                 if(data.code===200){
+                    // 把用户信息存入本地存储
+                    localStorage.setItem('userInfo',JSON.stringify(data.data[0]));
                     location.href = 'index.html'
+                }else{
+                    username.classList.add('is-invalid')
+                    password.classList.add('is-invalid')
+                    username.nextElementSibling.innerText = '用户名或密码错误'
+                    password.nextElementSibling.innerText = '用户名或密码错误'
                 }
             }
-            xhr.open('get',`http://localhost:2110/api/user/login?username=${_username}&password=${_password}`,true);
-            // 设置content-type请求头
-            xhr.setRequestHeader('Content-Type','x-www-form-urlencoded')
+            xhr.responseType = 'json'
+            xhr.open('get',`http://localhost:2110/api/user/login?username=${_username}&password=${_password}&mdl=${_mdl}`,true);
             xhr.send()
         }
     </script>
