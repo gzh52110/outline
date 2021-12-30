@@ -67,7 +67,26 @@ function formatParams(data,params){
     return newData;
 }
 // formatParams(req.body,['password','age','gender'])
+/**
+ * 格式化ObjectId
+ * @param {String|Array} id 
+ */
+const {ObjectId} = require('mongodb')
+function formatId(id){
 
+    // Array -> {$in:[ObjectId,ObjectId]}
+    if(Array.isArray(id)){
+        return {
+            $in:id.map(item=>formatId(item))
+        }
+    }
+
+    // String -> ObjectId
+    if(typeof id === 'string'){
+        return ObjectId(id);
+    }
+
+}
 
 const jwt = require('jsonwebtoken');
 const privateKey = 'laoxie';
@@ -112,5 +131,6 @@ const token = {
 module.exports = {
     formatData,
     formatParams,
-    token
+    token,
+    formatId
 }

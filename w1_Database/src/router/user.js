@@ -4,6 +4,7 @@ module.exports = router;
 
 const { formatData,formatParams,token } = require('../utils')
 const db = require('../db')
+const crypto = require('crypto')
 const colName = 'user';
 
 // const mysql = require('mysql')
@@ -82,8 +83,17 @@ router.post('/reg', async (req, res) => {
     //     res.send('注册失败')
     // }
 
+    // 对密码进行单向加密
+    // 1. 创建hash加密对象
+    const hash = crypto.createHash('sha256');
+    // 2. 加密数据
+    hash.update(password);
+    // 3. 输出密文
+    const newPassword = hash.digest('hex')
+
+
     // @mongodb
-    const result = await db.insert(colName, { username, password })
+    const result = await db.insert(colName, { username, password:newPassword })
     console.log('username', username, password)
     // if (result) {
     //     res.send({
@@ -123,7 +133,14 @@ router.get('/login', async (req, res) => {
     //     res.send('登录失败')
     // }
 
-    const result = await db.query(colName, { username, password }, { projection: { password: 0 } })
+    // 1. 创建hash加密对象
+    const hash = crypto.createHash('sha256');
+    // 2. 加密数据
+    hash.update(password);
+    // 3. 输出密文
+    const newPassword = hash.digest('hex')
+
+    const result = await db.query(colName, { username, password:newPassword }, { projection: { password: 0 } })
 
     // 用户登录成功
     if (result.length > 0) {

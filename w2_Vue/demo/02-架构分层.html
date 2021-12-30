@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02-架构分层</title>
+</head>
+<body>
+    <h1>02-架构分层</h1>
+    <div id="app">
+        <!-- View视图层 -->
+        <p>{{count}}</p>
+        <button v-on:click="count++">修改count</button>
+        <p>
+            <input type="text" v-model="count" >
+            <!-- <input type="text" v-bind:value="count" v-on:input="">  -->
+        </p>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        /**
+         * 02-架构分层
+            * MVC
+                * M(Model):     数据
+                * V(View):      视图
+                * C(Controller) 控制器
+            * MVP
+                * M(Model):     数据
+                * V(View):      视图
+                * Presenter     控制器（优化后的Controller）
+            * MVVM
+                * M(Model):     数据
+                * V(View):      视图
+                * VM(ViewModel) 控制器
+         */
+        
+        // Model数据层
+        const data = {
+            count:10
+        }
+
+        // Controller控制层
+        // 实例化Vue就是关联三个分层
+        const vm = new Vue({
+            // 关联视图层
+            el:'#app',
+
+            // 关联数据层
+            data
+        })
+    </script>
+</body>
+</html>

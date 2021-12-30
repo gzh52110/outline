@@ -564,7 +564,75 @@
             2. 前端根据校验结果显示页面状态
     * 第三方模块：jsonwebtoken
 
-    * 加密解密
-        ```
-            a -> 3456
-        ```
+## day2-4
+
+### 知识点
+* 加密解密
+    * 了解加密的重要性
+    * 明文与密文
+    * 加密类型
+        * 单向加密
+            > 加密后不可解密（不可逆）
+        * 双向加密
+            > 加密后可解密
+            * 对称加密
+                > 加密与解密公用一把钥匙
+            * 非对称加密
+                > 公钥与私钥
+
+* 批量操作
+    * $in/$nin
+
+
+* Vue
+    * 前端框架
+        * jquery工具库(2006)
+        * angular(2009)
+            > angularJS -> angular(typescript)
+        * backbone(2010)
+        * React（2013）
+            > Virtual DOM
+        * Vue(2014)
+            > 综合angular与react的优点，MVVM模式，是一款高性能高效率的框架
+    * 使用
+        * 下载
+            * 版本
+                * 按环境分
+                    * 开发版(development)：vue.js
+                    * 生产版(production)：vue.min.js
+                * 按构建版本分
+                    * 完整版: vue.js
+                        > 完整版 = 运行时版 + 编译器
+                    * 运行时版：vue.runtime.js
+                        > 运行Vue应用所需要的最小代码
+                * 按模块分
+                    * commonJS: vue.common.js
+                    * ESModule: vue.esm.js
+                    * UMD: vue.js
+                        > 通用模块化规范，支持commonJS+AMD/CMD+全局引用（script引入）
+
+        * 实例化
+        * 数据绑定
+            * 单向绑定
+                * 双花括号：{{}}
+                    > 绑定数据到标签内
+                * 绑定到标签属性：v-bind
+            * 双向绑定：v-model
+
+        * 事件绑定
+            > 指令：一种特殊的html属性，这些属性被Vue所识别
+            * v-on
+        * 架构分层
+            * MVC
+                * M(Model):     数据
+                * V(View):      视图
+                * C(Controller) 控制器
+            * MVP
+                * M(Model):     数据
+                * V(View):      视图
+                * Presenter     控制器（优化后的Controller）
+            * MVVM
+                * M(Model):     数据
+                * V(View):      视图
+                * VM(ViewModel) 控制器
+

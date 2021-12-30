@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01-使用vue</title>
+</head>
+<body>
+    <h1>01-使用vue</h1>
+    <div id="app">
+        {{count}}
+        <button v-on:click="count++">修改count</button>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        /**
+         * 01-使用vue
+            * 实例化一个Vue
+            * 
+         */
+
+        new Vue({
+            el:'#app',
+            data:{
+                count:10
+            }
+        })
+    </script>
+</body>
+</html>

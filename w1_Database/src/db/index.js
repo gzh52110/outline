@@ -1,4 +1,5 @@
 const { MongoClient, ObjectId } = require('mongodb');
+const { formatId } = require('../utils');
 
 const url = 'mongodb://localhost:27017';
 const dbName = 'h52110'
@@ -61,8 +62,8 @@ async function del(colName, filter) {
     const col = db.collection(colName)
 
     // 转换id为ObjectId
-    if (typeof filter._id === 'string') {
-        filter._id = ObjectId(filter._id)
+    if (filter._id) {
+        filter._id = formatId(filter._id)
     }
 
     let result;
@@ -114,7 +115,7 @@ async function update(colName,filter,data) {
  * @param {Object} options 其他选项
  * @returns {Array} 查询结果
  */
-async function query(colName,filter={},options={}) {
+async function query(colName,filter={},{projection,skip,limit,sort}={}) {
     const { db, client } = await connect()
     const col = db.collection(colName)
 
@@ -123,16 +124,32 @@ async function query(colName,filter={},options={}) {
     }
 
     let cursor = col.find(filter,{
-        projection:options.projection
+        projection
     })
 
     // 跳过数量
-    if(options.skip){
-        cursor = cursor.skip(options.skip)
+    if(skip){
+        cursor = cursor.skip(skip)
     }
 
-    if(options.limit){
-        cursor.limit(options.limit)
+    if(limit){
+        cursor.limit(limit)
+    }
+
+    // 排序
+    // sort:'price',['price',-1]
+    if(sort){
+        let key,type
+        if(Array.isArray(sort)){
+            key = sort[0]
+            type = sort[1]
+        }else{
+            key = sort;
+            type = 1
+        }
+        cursor.sort({
+            [key]:type
+        })
     }
 
     const result = await cursor.toArray()
