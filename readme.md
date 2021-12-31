@@ -636,3 +636,38 @@
                 * V(View):      视图
                 * VM(ViewModel) 控制器
 
+## day2-5
+
+### 知识点
+* 模板语法
+    * 数据绑定
+        * 单向绑定：
+            * {{}}
+            * v-bind
+        * 双向绑定
+            * v-model
+                > v-model只是一个语法糖，替代方案为：v-model = v-bind:value + v-on:input
+    * 事件绑定: v-on
+        * 事件处理函数：在methods中定义
+        * 传参
+            
+    * 列表渲染：v-for
+        > v-for可以遍历的数据为：Array | Object | number | string | Iterable(可迭代数据)
+        * `v-for="item in data"`
+        * `v-for="item of data"`
+    * 条件渲染
+        * v-show: 是否显示
+* 双向数据绑定的原理
+    > v-model的替代方案
+    * Model -> View
+        > 修改数据层，视图层会自动更新
+        * 原理：监听数据变化（getter&setter），并刷新视图，即**响应式属性**（数据层中的属性发生变化会影响视图层）
+    * View -> Model
+        > 修改视图层，数据层会自动更新
+        * 原理：监听表单变化（事件），并修改数据
+
+* 案例：04-tab标签切换
+    * 什么是响应式属性
+        > 数据的改变会影响视图的更新
+    * 编程思维的改变：
+        * 节点操作思维 -> **数据驱动**思维

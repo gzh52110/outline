@@ -10,7 +10,7 @@
     <h1>02-架构分层</h1>
     <div id="app">
         <!-- View视图层 -->
-        <p>{{count}}</p>
+        <p v-bind:num="count">{{count}}</p>
         <button v-on:click="count++">修改count</button>
         <p>
             <input type="text" v-model="count" >

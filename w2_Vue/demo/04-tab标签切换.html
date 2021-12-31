@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04-tab标签切换</title>
+    <link rel="stylesheet" href="./css/bootstrap.css">
+</head>
+
+<body>
+    <div class="container" id="app">
+        <h1>04-tab标签切换</h1>
+        <ul class="nav nav-tabs">
+            <li class="nav-item" v-for="(item,index) in users">
+                <!-- <a v-bind:class="'nav-link' + (current===index?' active':'')" href="#">{{index}}-{{item}}</a> -->
+                <!-- <a v-bind:class="['nav-link',current===index?' active':'']" href="#">{{index}}-{{item}}</a> -->
+                <!-- <a v-bind:class="{'nav-link':true,active:current===index}" href="#">{{index}}-{{item}}</a> -->
+                <a v-bind:class="['nav-link',{active:current===index}]" href="#" v-on:click="changeTab(index)">{{item}}</a>
+            </li>
+        </ul>
+        <div class="p-5 border border-top-0">
+            <div v-for="(item,idx) in users" v-show="idx===current">{{idx+1}}</div>
+        </div>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        const vm = new Vue({
+            el:'#app',
+            data:{
+                current:0,
+                users:['laoxie','tiantian','jingjing']
+            },
+
+            // 定义方法
+            methods:{
+                changeTab(index){
+                    this.current = index
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

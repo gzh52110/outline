@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03-双向数据绑定的原理</title>
+</head>
+
+<body>
+    <h1>03-双向数据绑定的原理</h1>
+    <div id="app">
+        <p>qty:{{qty}}</p>
+
+        <p>v-model: <input type="text" v-model="qty" /></p>
+        <p>v-model替代方案：<input type="text" v-bind:value="qty" v-on:input="qty=$event.target.value" /></p>
+    </div>
+
+    <div id="myapp">
+        <!-- 我的View -->
+        <p></p>
+        <input type="text" />
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        /**
+         * 03-双向数据绑定的原理
+            
+         */
+        const model = {
+            qty: 1
+        }
+
+        const vm = new Vue({
+            el: '#app',
+            data: model
+        })
+
+        // 原生js实现数据监听
+        // 监听到数据变化时(getter&setter)，刷新视图
+        const myData = {
+            username:'laoxie',
+
+            // age:18,
+
+            // getter: 当读取age属性时，自动执行getter函数
+            get age(){
+                console.log('getter')
+                return 18;
+            },
+            // setter: 当修改age属性时，自动执行setter函数，并传入修改的值作为参数,换句话说，我们可以在setter中监听数据的变化
+            // myData.age = 28;
+            set age(newValue){
+                console.log('setter',newValue)
+
+                // 这是一个函数，意味着我们可以为所欲为
+                myApp.querySelector('p').innerHTML = newValue;
+            }
+        }
+
+        const myApp = document.querySelector('#myapp')
+        myApp.querySelector('p').innerHTML = myData.age;
+
+        myApp.querySelector('input').value = myData.age;
+
+        // 监听表单数据变化
+        myApp.querySelector('input').oninput = (e)=>{
+            // 根据表单的变化修改数据
+            myData.age = e.target.value;
+        }
+
+    </script>
+</body>
+
+</html>
