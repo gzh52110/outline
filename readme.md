@@ -650,13 +650,16 @@
     * 事件绑定: v-on
         * 事件处理函数：在methods中定义
         * 传参
-            
+        * 修饰符：过滤
+
     * 列表渲染：v-for
         > v-for可以遍历的数据为：Array | Object | number | string | Iterable(可迭代数据)
         * `v-for="item in data"`
         * `v-for="item of data"`
     * 条件渲染
         * v-show: 是否显示
+        * 三元运算
+        * v-if/v-else/v-else-if
 * 双向数据绑定的原理
     > v-model的替代方案
     * Model -> View
@@ -671,3 +674,39 @@
         > 数据的改变会影响视图的更新
     * 编程思维的改变：
         * 节点操作思维 -> **数据驱动**思维
+* Vue实例化过程
+    * 把data中的属性变成getter&setter并写入vm实例
+        > 如果属性为数组，则修改数组的原型，从而达到监听修改的效果
+    * 把methods中的方法写入vm实例
+* 响应式属性
+    * 什么是响应式属性
+        * 特点：数据层中的属性发生变化会刷新视图层
+    * 对象响应式元素
+        * 原理：getter & setter
+    * 数组响应式原理
+        * 通过重写数组原型实现响应式属性
+    * 如何设置响应式属性
+        * 在data中设置初始值
+            > 在Vue实例化时会递归遍历data中所有的属性，并通过`Object.defineProperty()`把它们改成getter&setter，并写入vm实例属性
+            * Object.defineProperty(target,prop,descriptor)
+                * target: 目标对象
+                * props: target下的属性
+                * descriptor: 属性特性
+                    > 传统方式**添加**的属性，所有属性特性默认为true，通过`Object.defineProperty()`**添加**的属性，所有属性特性默认为false
+                    * 存储器属性：没有自己的值，一般用于监听或代理别的数据
+                        * configurable  可配置性（属性特性总开关）
+                        * enumerable    可枚举性
+                        * get
+                        * set
+                    * 值属性：有自己的值的属性
+                        * configurable  可配置性
+                        * enumerable    可枚举性
+                        * writable      可写性
+                        * value         值
+            * Object.getOwnPropertyDescriptor() 获取属性特性
+        * `Vue.set(target,key,val)`
+            * target可以是数组或对象，但不能是 Vue 实例，或者 Vue的根数据对象
+
+* ref对象
+    > 通过实例的$refs对象获取
+    * ref对象用在元素上，得到该元素对应的节点引用

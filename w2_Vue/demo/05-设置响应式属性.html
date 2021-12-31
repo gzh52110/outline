@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>05-设置响应式属性</title>
+    <link rel="stylesheet" href="./css/bootstrap.css">
+</head>
+
+<body>
+    <div class="container" id="app">
+        <h1>05-设置响应式属性</h1>
+        <p>用户名：{{username}}</p>
+        <p>成绩：{{score}}</p>
+        <p>昵称：{{nickname}}</p>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        const data = {
+            age:18,
+            qty:10,
+            get count(){
+                return 1
+            }
+        }
+
+        // 通过Object.defineProperty()方法把qty修改成getter&setter
+        // getter&setter用于监听或代理别的属性
+        let myData = {
+            qty:100
+        }
+        Object.defineProperty(data,'qty',{
+            get(){
+                return myData.qty;
+            },
+            set(newValue){
+                console.log('newValue',newValue)
+                myData.qty = newValue;
+            }
+        })
+
+        // 通过Object.defineProperty()添加username属性
+        Object.defineProperty(data,'username',{
+            configurable:true,
+            // enumerable:true,
+            get(){
+                return 'laoxie'
+            }
+        })
+
+        // 通过Object.defineProperty()添加isDanshen属性
+        // data.isDanshen = true;
+        Object.defineProperty(data,'isDanshen',{
+            // enumerable:true,
+            value:'是'
+        })
+
+
+        // Vue
+        const vm = new Vue({
+            el:'#app',
+            data:{
+                // 1. 通过设置初始数据达到响应式的效果
+                username:'laoxie',
+                score:{
+                    english:100,
+                    math:110,
+                    chinese:1
+                },
+                nickname:['小谢','靓仔']
+            }
+        })
+
+        // 2. 后期添加的属性Vue.set(target,key,val)
+        // Vue.set(vm.score,'lizong',30)
+    </script>
+</body>
+
+</html>
