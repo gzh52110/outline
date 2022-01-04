@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>09-自定义指令</title>
+</head>
+
+<body>
+    <h1>09-自定义指令</h1>
+    <div id="app">
+        <!-- <div v-color>qty:{{qty}}</div> -->
+        <!-- <div v-color="'#f00'">qty:{{qty}}</div> -->
+        <!-- <div v-color:bg="'#f00'">qty:{{qty}}</div> -->
+        <!-- <div v-color:bg.up.left="'#f00'">qty:{{qty}}</div> -->
+
+        <p v-color:green>ABC</p>
+        <p v-color:#f0f>ABC</p>
+
+        <input type="text" v-focus />
+    </div>
+
+    <script src="./js/vue.js"></script>
+    <script>
+        /**
+         * 09-自定义指令
+            * 改变颜色的指令:color
+         */
+        
+         // 全局指令
+         Vue.directive('color',{
+            bind(el,binding){
+                console.log('bind',el,binding)
+                const {arg,modifiers} = binding;
+                if(modifiers.bg){
+                    el.style.backgroundColor = arg
+                }else{
+                    el.style.color = arg;
+                }
+            },
+            inserted(el,binding){
+                // 指令所在的元素插入到页面后执行
+            }
+         })
+
+
+         const vm = new Vue({
+             el:'#app',
+             data:{
+                 qty:10
+             },
+             directives:{
+            //      name:definition,
+                focus:{
+                    bind(el,binding){
+                    },
+                    inserted(el,binding){
+                        
+                        el.focus();
+                    }
+                }
+             }
+         })
+
+
+    </script>
+</body>
+
+</html>

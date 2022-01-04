@@ -731,3 +731,132 @@
         > 可进行深度监听（监听子属性）
     * immediate:true
         > 初始化监听
+
+* 知识点总接
+    ```js
+        const vm = new Vue(options)
+    ```
+    * 类：Vue
+        * 类属性（静态属性）
+            * Vue.config: 
+                * keyCodes
+        * 类方法（静态方法/全局方法）
+            * Vue.set()
+            * Vue.delete()
+    * 实例
+        > 只有实例中的属性/方法才能在视图中使用
+        * 属性
+            * 内置属性
+                > 以$开头
+            * 私有属性
+                > 以_开头
+            * 自定义属性
+                Vue实例化时，会遍历data/computed/methods等中所有属性/方法，并写入Vue的实例
+        * 方法
+            * $set()    Vue.set()的别名
+            * $delete() Vue.delete()的别名
+            * $watch()  等效于watch选项
+                ```js
+                    watch:{
+                        datalist(){}
+                    }
+
+                    this.$watch('datalist',function(n,o){})
+                ```
+
+
+    * options配置选项
+        * el
+        * data
+        * methods
+            > 方法中的this指向实例
+        * computed
+            > 缓存特性
+            * Function: getter
+            * Object: getter+setter
+        * watch 监听实例属性
+            > 默认为浅监听，可实现深层监听
+            ```js
+                watch:{
+                    datalist(n,o){},
+                    'datalist.0':function(n,o){},
+                    datalist:{
+                        handler:function(n,o){}
+                        deep:true,
+                        immediate:true
+                    }
+                }
+            ```
+    * 指令
+        * v-bind
+            * 对class与style增强
+            ```js
+                v-bind:title=""
+                v-bind:class="[]"
+                v-bind:style="{}"
+            ```
+            * 无参数绑定对象
+                ```js
+                    <div v-bind="{a:10,b:20,c:30}"></div>
+                ```
+            * 动态参数
+                ```js
+                    data:{
+                        data:{
+                            dir:'left'
+                        }
+                    }
+                    <div v-bind:[dir]="10"> -> <div v-bind:left="10">
+
+                    this.dir = 'top' -> <div v-bind:top="10">
+                ```
+        * v-on
+        * v-model
+        * v-for
+        * v-if/v-else/v-else-if
+        * v-show
+        * v-text 等效于 {{}}
+            ```js
+                <div>
+            ```
+        * v-html
+            > 必须保证内容安全才能使用v-html，避免xss攻击（跨域脚本攻击）
+            * 如何避免xss攻击
+                * 不要直接把用户输入的内容显示到页面，应过滤有破坏性的标签内容：script,style,link,iframe等
+        * v-pre
+        * v-once    只编译一次，后期不会有监听效果，一般用户优化性能
+        * v-cloak
+            > 该指令一致出现在标签属性中，直到数据显然完成，一般用于解决数据闪现问题（配合css）
+                
+* 自定义指令
+    * 什么是指令：一种具有某些特定功能的特殊的html属性
+    * 完整指令格式：v-name:arg.modifer="value"
+        * name: 名称
+        * arg: 参数
+        * modifer: 修饰符
+        * value: 值
+    * 分类
+        * 全局指令
+            * Vue.directive(name,definition)
+        * 局部指令
+    * 使用
+        > 必须以`v-`开头：`v-name`
+        ```js
+            v-name
+            v-name="value"
+            v-name:title="value"
+            v-name:title.enter.x="value"
+        ``
+    * 指令钩子函数
+        * bind：初始化时执行（默认）
+        * inserted：元素插入页面时执行
+        * update：所在模板更新时执行
+        * componentUpdated：所在模板完成一次更新周期时调用
+        * unbind：指令与元素解绑时执行
+
+        * 参数
+            * el 指令所绑定的元素，可以用来直接操作 DOM
+            * binding 一个对象，包含以下案例中的属性
+            * vnode
+            * oldVnode
+                > 仅在update 和 componentUpdated 钩子中可用
