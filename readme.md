@@ -644,6 +644,7 @@
         * 单向绑定：
             * {{}}
             * v-bind
+                * 简写：`:`
         * 双向绑定
             * v-model
                 > v-model只是一个语法糖，替代方案为：v-model = v-bind:value + v-on:input
@@ -651,6 +652,7 @@
         * 事件处理函数：在methods中定义
         * 传参
         * 修饰符：过滤
+        * 简写：@
 
     * 列表渲染：v-for
         > v-for可以遍历的数据为：Array | Object | number | string | Iterable(可迭代数据)
@@ -660,6 +662,9 @@
         * v-show: 是否显示
         * 三元运算
         * v-if/v-else/v-else-if
+    * ref对象
+        > 通过实例的$refs对象获取
+        * ref对象用在元素上，得到该元素对应的节点引用
 * 双向数据绑定的原理
     > v-model的替代方案
     * Model -> View
@@ -707,6 +712,22 @@
         * `Vue.set(target,key,val)`
             * target可以是数组或对象，但不能是 Vue 实例，或者 Vue的根数据对象
 
-* ref对象
-    > 通过实例的$refs对象获取
-    * ref对象用在元素上，得到该元素对应的节点引用
+
+## day3-1
+
+### 面试题
+* computed属性与methods的区别
+    > 如computed与methods都能达到同样的效果，优先使用computed
+* computed属性与data的区别
+    > data为初始数据，computed一般用户根据data值计算/映射出其他的值
+
+### 知识点
+* computed: 计算属性
+    * 原理：getter & setter
+    * 特点：缓存（当依赖的数据发生变化时重新计算，否则获取上一次的值,即缓存值）
+    * 应用场景：一般用于优化
+* watch: 监听属性（监听实例属性）
+    * deep:true
+        > 可进行深度监听（监听子属性）
+    * immediate:true
+        > 初始化监听

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06-todolist待办事项</title>
+    <link rel="stylesheet" href="./css/bootstrap.css">
+</head>
+
+<body>
+    <div class="container" id="app">
+        <h1>06-todolist待办事项</h1>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" v-model="todo" ref="input" v-on:keyup.enter.ctrl="addItem">
+            <button class="btn btn-success" type="button" v-on:click="addItem">添加</button>
+          </div>
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">
+                    <input type="checkbox" v-model="checkAll"  />
+                    <!-- <input type="checkbox" value="b" v-model="checkAll"  />
+                    <input type="checkbox" value="c" v-model="checkAll"  /> -->
+                </th>
+                <th scope="col">#</th>
+                <th scope="col">待办事项</th>
+                <th scope="col">是否完成</th>
+                <th scope="col">添加时间</th>
+                <th scope="col">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item,index) in datalist" @click="selectItem(item.id)">
+                <th scope="row"><input type="checkbox" :checked="selectIds.includes(item.id)" /></th>
+                <th scope="row">{{index+1}}</th>
+                <td>{{item.todo}}</td>
+                <!-- <td>{{item.done ? '是' : '否'}}</td> -->
+                <td>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" disabled v-if="item.done">是</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" disabled v-else>否</button>
+                </td>
+                <td>{{formatDate(item.addtime)}}</td>
+                <td>
+                    <button type="button" class="btn btn-primary" @click="completeItem(item.id)">完成</button>
+                    <button type="button" class="btn btn-danger" @click="removeItem(index)">删除</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        <div>总数：{{datalist.length}}，完成：{{completelist.length}}，未完成：{{unCompletelist.length}}</div>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+       /**
+            * 06-todolist待办事项
+        */
+
+        const vm = new Vue({
+            el:'#app',
+            data:{
+                todo:'',
+                // checkAll:false,
+                selectIds:[],
+                datalist:[{
+                    id: 1,
+                    todo: '赚他一个亿津巴布韦币',
+                    done: true,
+                    addtime: Date.now() + 3600*1000
+                }, {
+                    id: 2,
+                    todo: '迎娶白富美，达到人生巅峰',
+                    done: false,
+                    addtime: Date.now() + 3600 * 1000 * 5
+                }, {
+                    id: 3,
+                    todo: '出任CEO，达到疯癫状态',
+                    done: false,
+                    addtime: Date.now()
+                }]
+            },
+            // 计算属性(getter&setter)
+            computed:{
+                // Function: getter
+                completelist(){
+                    console.log('computed.compltelist')
+                    return this.datalist.filter(item=>item.done)
+                },
+
+                // Object: getter & setter
+                unCompletelist:{
+                    get(){
+                        return this.datalist.filter(item=>!item.done)
+                    },
+                    // set(newValue){
+                        
+                    // }
+                },
+                checkAll:{
+                    get(){
+                        return this.datalist.every(item=>this.selectIds.includes(item.id))
+                    },
+                    set(n){
+                        if(n){
+                            this.selectIds = this.datalist.map(item=>item.id);
+                        }else{
+                            this.selectIds = []
+                        }
+                    }
+                }
+            },
+            // 监听属性
+            watch:{
+                // 监听checkAll属性，当checkAll发生变化时自动执行函数中的代码
+                // checkAll:{
+                    
+                //     handler:function(newVal,oldVal){
+                //         console.log('666',newVal,oldVal)
+                //         if(newVal){
+                //             this.selectIds = this.datalist.map(item=>item.id);
+                //         }else{
+                //             this.selectIds = []
+                //         }
+                //     },
+                //     // 立即监听
+                //     immediate:true,
+                // },
+                // 监听datalist
+                'datalist.1':function(){},
+                'datalist.1':{
+                    handler:function(n,o){
+                        console.log('datalist',n,o)
+                    },
+                    deep:true
+                }
+            },
+            methods:{
+                formatDate(date){
+                    return new Date(date).toLocaleDateString()
+                },
+                addItem(){
+                    const newItem = {
+                        id: parseInt(Math.random()*10000),
+                        todo: this.todo,
+                        done: false,
+                        addtime: Date.now()
+                    }
+
+                    // 添加到前面位置
+                    this.datalist.unshift(newItem)
+
+                    // 清空并自动获得焦点
+                    this.todo = ''
+                    this.$refs.input.focus();
+                },
+                // submit(e){
+                //     if(e.keyCode === 13){
+                //         this.addItem()
+                //     }
+                // },
+                completeItem(id){
+                    this.datalist.forEach(item=>{
+                        if(item.id === id){
+                            item.done = !item.done;
+                        }
+                    })
+                },
+                removeItem(idx){
+                    // 覆盖原有数据达到删除效果
+                    // this.datalist = this.datalist.filter(item=>{
+                    //     return item.id != id;
+                    // })
+
+                    // 利用重写的方法删除数据
+                    this.datalist.splice(idx,1)
+                },
+                // getCompletelist(){
+                //     console.log('method.compltelist')
+                //     return this.datalist.filter(item=>item.done).length
+                // },
+                // getUnCompletelist(){
+                //     return this.datalist.filter(item=>!item.done).length
+                // },
+                selectItem(id){
+                    const idx = this.selectIds.indexOf(id)
+                    if(idx>=0){
+                        // 存在就删除
+                        this.selectIds.splice(idx,1)
+                    }else{
+                        // 不存在添加
+                        this.selectIds.push(id);
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
