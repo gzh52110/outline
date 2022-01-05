@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>11-组件的选项</title>
+</head>
+
+<body>
+    <h1>11-组件的选项</h1>
+    <div id="app">
+        <!-- <mylist></mylist> -->
+        <my-list></my-list>
+        <!-- <div v-on:click=""></div> -->
+        <!-- <mybody></mybody> -->
+    </div>
+    <template id="mylist">
+        <div class="mylist">
+            <h4>列表</h4>
+            <ul>
+                <li>dataA</li>
+                <li>dataB</li>
+                <li>dataC</li>
+            </ul>
+            <p @click="qty++">qty:{{qty}}</p>
+            <!-- 局部组件 -->
+            <mybody></mybody>
+        </div>
+    </template>
+    <script src="./js/vue.js"></script>
+    <script>
+        /**
+            * 11-组件的选项
+                > 与实例化Vue几乎一致的选项
+                * 没有el，使用render或template渲染组件内容
+                * data必须为Function类型，函数中返回数据
+
+         */
+
+         
+        // 驼峰写法会自动编译成横岗名称：myList -> my-list
+         Vue.component('my-list',{
+             data:function(){
+                return {
+                    qty:10
+                }
+             },
+             template:`#mylist`,
+
+             // 局部组件
+             // 只能在当前组件中使用
+             components:{
+                mybody:{
+                    template:`<div>mybody component</div>`
+                }
+             },
+             // 局部指令
+             // 只在当前组件生效
+             directives:{},
+             methods:{
+                 handle(){
+                     // 这里的this指向组件实例
+                 }
+             }
+         })
+         const vm = new Vue({
+             el:'#app',
+             data:{
+
+             }
+         })
+
+
+    </script>
+</body>
+
+</html>

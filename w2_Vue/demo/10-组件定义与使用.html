@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10-组件定义与使用</title>
+</head>
+
+<body>
+    <h1>10-组件定义与使用</h1>
+    <div id="app">
+        <list></list>
+        <mylist></mylist>
+        <mylist></mylist>
+        <mylist></mylist>
+        <!-- <div v-on:click=""></div> -->
+    </div>
+
+    <script src="./js/vue.js"></script>
+    <script>
+        /**
+            * 10-组件定义与使用
+                * 全局组件：Vue.component(name,options)
+         */
+
+         // render渲染函数
+         Vue.component('list',{
+             render(createElement){
+                // return createElement('div',{
+                //     'class':{
+                //         list:true
+                //     },
+                //     style:{
+                //         color:'#f00'
+                //     },
+                //     // 自定义属性
+                //     attrs:{
+                //         idx:10,
+                //         title:'hello list'
+                //     },
+                //     // 事件
+                //     on:{
+                //         click:function(){
+                //             console.log('hello list')
+                //         }
+                //     }
+                // },'list组件')
+
+                // <div><h4></h4><ul><li></li></ul></div>
+                return createElement(
+                    'div',
+                    {
+                        attrs:{id:'list',class:'mylist'}
+                    },
+                    [
+                        createElement('h4',null,'列表'),
+                        createElement(
+                            'ul',
+                            {class:{list:true}},
+                            [
+                                createElement('li',null,'data1'),
+                                createElement('li',null,'data2'),
+                                createElement('li',null,'data3'),
+                            ]
+                        ),
+                    ]
+                )
+             }
+         })
+        
+         Vue.component('mylist',{
+             template:`<div class="mylist">
+                <h4>列表</h4>
+                <ul>
+                    <li>dataA</li>
+                    <li>dataB</li>
+                    <li>dataC</li>
+                </ul>
+            </div>`
+         })
+         const vm = new Vue({
+             el:'#app',
+             data:{
+
+             }
+         })
+
+
+    </script>
+</body>
+
+</html>

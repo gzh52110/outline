@@ -43,8 +43,8 @@
                 </td>
                 <td>{{formatDate(item.addtime)}}</td>
                 <td>
-                    <button type="button" class="btn btn-primary" @click="completeItem(item.id)">完成</button>
-                    <button type="button" class="btn btn-danger" @click="removeItem(index)">删除</button>
+                    <button type="button" class="btn btn-primary" @click="completeItem(item.id,$event)">完成</button>
+                    <button type="button" class="btn btn-danger" @click.stop="removeItem(index)">删除</button>
                 </td>
               </tr>
             </tbody>
@@ -159,12 +159,13 @@
                 //         this.addItem()
                 //     }
                 // },
-                completeItem(id){
+                completeItem(id,e){
                     this.datalist.forEach(item=>{
                         if(item.id === id){
                             item.done = !item.done;
                         }
                     })
+                    e.stopPropagation()
                 },
                 removeItem(idx){
                     // 覆盖原有数据达到删除效果

@@ -653,6 +653,16 @@
         * 传参
         * 修饰符：过滤
         * 简写：@
+        * event
+            * 默认为事件处理函数的第一个参数（无传参的情况下）
+                ```js
+                    <button @click="handle"></button>
+                ```
+            * 如传参则需要手动传递event
+                > 事件触发时event对象赋值给实例的$event属性，事件完成后会移除
+                ```js
+                    <button @click="handle(item.id,$event)"></button>
+                ```
 
     * 列表渲染：v-for
         > v-for可以遍历的数据为：Array | Object | number | string | Iterable(可迭代数据)
@@ -839,6 +849,7 @@
         * 全局指令
             * Vue.directive(name,definition)
         * 局部指令
+            * directives
     * 使用
         > 必须以`v-`开头：`v-name`
         ```js
@@ -860,3 +871,48 @@
             * vnode
             * oldVnode
                 > 仅在update 和 componentUpdated 钩子中可用
+
+## day3-2
+
+### 面试题
+* 为什么组件的data必须为函数类型
+    > 因为组件需要复用，如果data不使用函数来返回一个对象，则所有组件共用一份数据，达不到复用的效果
+
+### 知识点
+* 组件
+    * 问题
+        * 什么是组件
+            > 把一个大的功能拆分成一些独立的模块，用独立可复用的小组件来构建大型应用
+            * 组件是可复用的 Vue 实例
+                > 定义组件时拥有与实例化Vue几乎一样的选项
+        * 有什么用
+            * 更好的分工
+            * 更好的复用
+            * 更好的维护
+        * 怎么用
+            * 定义（注册）组件
+                > 定义一个组件相当于创建了一个标签
+            * 使用组件
+                ```
+                    <name></name>
+                ```
+    * 注册组件
+        * 全局组件
+            > Vue.component(name,options)
+            * name: 不能与内置html标签重名
+        * 局部组件
+            > components:{name:options}
+    * 组件要求
+        * 组件名称不能与内置html标签重名
+            > 注册时组件名可以是kebab-case或PascalCase，但在html页面上使用时，必须写成遵循W3C 规范中的自定义组件名 (字母全小写或包含一个连字符)
+        * 不能使用el
+        * data必须为Function类型
+        * 每个组件必须只有一个根元素
+    * this指向
+        > 组件中的this指向组件实例
+    * 组件选项
+        * template
+        * render
+        * data
+            > 只能为Function类型
+        * components
