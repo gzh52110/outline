@@ -992,5 +992,47 @@
     * 导出：export
     * 在webpack环境中使用
     * 在html文件中使用
-
+        ```html
+            <script type="module"></script>
+        ```
 * Vue的**单文件组件（SFC）**
+    > 后缀名为.vue的包含html,css,js的文件
+    ```js
+        Vue.component({
+            template:``, // -> render()
+            data(){
+                return {}
+            },
+            computed:{
+
+            }
+        })
+    ```
+    * SFC组成部分
+        * `<template/>`
+        * `<script/>`
+        * `<style/>`
+    * 编译规则
+        1. webpack把`<template>`标签中的内容编译成render函数
+        2. webpack把`<style>`标签中的样式编译到html页面的style标签
+
+        > webpack --{编译}--> html -> 浏览器中渲染
+
+* 组件选项
+    * inheritAttrs
+        * prop属性：通过props选项声明的属性
+            > prop属性会自动称为组件实例的属性
+        * attr属性：不通过props选项声明的属性
+            > attr属性会自动称为组件根节点html属性
+* 插槽slot
+    * 默认插槽: `<slot/>`
+    * 命名插槽：`<slot name/>`
+        > 给插槽添加名字
+
+    * 插槽默认值
+        > 当插槽中没有传入内容时，使用默认值
+* 给组件绑定事件
+    * .native - 监听组件根元素的原生事件
+
+### 练习
+* 利用插槽实现todolist
