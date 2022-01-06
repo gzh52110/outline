@@ -911,8 +911,9 @@
     * this指向
         > 组件中的this指向组件实例
     * 组件选项
-        * template
-        * render
+        * template  模板
+        * render    渲染函数
+            > 通过`createElement()`方法利用js的方式生成虚拟节点（Virtual DOM）
         * data
             > 只能为Function类型
         * components
@@ -932,6 +933,7 @@
         * 方式一：逐层传递（不推荐）
             > 不断使用父传子的方式获取到数据，但操作繁琐，且不好维护
         * Bus事件总线
+        * 依赖注入
 
 * 单向数据流
     > 建议：数据定义在哪个组件，修改的方法就定义在哪个组件（谁的数据谁修改）
@@ -945,3 +947,50 @@
 ### 练习
 * 组件化todolist的选择功能
 * 编写一个按钮组件
+
+## day3-3
+
+### 知识点
+* Vue渲染步骤
+    1. 先查看是否有render函数，有则直接渲染，没有则进入第2步
+    2. 查看是否有template选项，有则把template中的代码编译成render函数再渲染，没有则进入第3步
+    3. 查看是否有el选项（或$mount()），有则把el对应节点的outerHTML作为template，再编译到render函数并渲染
+
+* Provide/Inject依赖注入
+    > 增强版的props，但**注入的数据不是响应式属性**（除非注入的数据本身就是响应式对象，不建议滥用），比较常用的用法是用来共享方法
+
+
+* Vue-cli
+    > @vue/cli
+    * 安装
+        ```bash
+            npm install -g @vue/cli
+        ```
+    * 创建Vue项目
+* npm script
+    > package.json文件中的scripts属性，称为npm脚本命令，这些命令可以直接在命令行执行
+
+* 模块化规范
+    * commonJS
+        * 导入：require()
+        * 导出：
+            * module.exports
+            * exports
+    * ESModule
+        * 导入：import
+        * 导出：export
+    * AMD   require.js
+    * CMD   sea.js
+    * UMD   通过模块化开发规范
+* ESModule
+    * 特点
+        * 把一个js文件当作一个模块，每个模块具有独立的作用域，
+        * 不能直接访问模块中的变量，除非模块导出（暴露），
+        * 外部能修改模块中的属性（因为是getter）
+        * 必须在http服务器环境中使用
+    * 导入：import
+    * 导出：export
+    * 在webpack环境中使用
+    * 在html文件中使用
+
+* Vue的**单文件组件（SFC）**

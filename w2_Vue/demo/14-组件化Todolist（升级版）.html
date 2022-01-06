@@ -78,15 +78,16 @@
                     * Bus事件总线： TodoItem --{id,index}--> Todolist
          */
 
-        // 1. 定义事件总线载体
-        const Bus = new Vue()
-        // Bus.$on('hi',function(id){
-        //     console.log('hi Bus',id)
-        // })
-        
-
         const TodoItem = {
             props:['item','index','selectIds','selectItem'],
+            // inject:['age','score'],
+            inject:['completeItem','removeItem'],
+            // inject:{
+            //     complete:'completeItem',
+            //     remove:{
+            //         from:'removeItem'
+            //     }
+            // },
             data(){
                 // Bus.$emit('hi',10)
                 console.log('TodoItem',this);
@@ -95,15 +96,14 @@
                 }
             },
             template: `#TodoItem`,
-            methods:{
-                completeItem(id){
-                    // 3. 触发Bus自定义事件
-                    Bus.$emit('complete',id)
-                },
-                removeItem(index){
-                    Bus.$emit('delete',index)
-                }
-            }
+            // methods:{
+            //     completeItem(id){
+
+            //     },
+            //     removeItem(index){
+
+            //     }
+            // }
         }
         const TodoHead = {
             // props:['addItem'],
@@ -186,11 +186,9 @@
 
         Vue.component('TodoList', {
             data() {
-                // 2. 给Bus自定义事件
-                Bus.$on('complete',this.completeItem)
-                Bus.$on('delete',this.removeItem)
-
                 return {
+                    // age:18,
+                    // score:{en:100},
                     datalist: [{
                         id: 1,
                         todo: '赚他一个亿津巴布韦币',
@@ -209,12 +207,29 @@
                     }]
                 }
             },
+            // 依赖注入：provide
+            // 设置provide后，该组件下的所有子组件（不管层级多深）都可以直接通过inject注入共享的数据
+            // provide共享的数据没有响应式特性
+            // provide:{
+            //     a:10,
+            //     b:20
+            // },
+            provide:function(){
+                return {
+                    // age:this.age,
+                    // score:this.score
+                    removeItem:this.removeItem,
+                    completeItem:this.completeItem
+                }
+            },
             template: `
                 <div class="todolist">
                     <!--<todo-head :addItem="addItem"></todo-head>-->
                     <todo-head v-on:add="addItem"></todo-head>
                     <todo-body :list="datalist"></todo-body>
                     <todo-foot :list="datalist"></todo-foot>
+                    <!--<button @click="age++">age:{{age}}</button>
+                    <button @click="score.en+=10">score:{{score}}</button>-->
                 </div>
             `,
             components: {

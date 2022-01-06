@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>13-渲染选项</title>
+</head>
+
+<body>
+    <h1>13-渲染选项</h1>
+    <div id="app">
+        <h4>渲染选项</h4>
+        {{qty}}
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        /**
+            * 13-渲染选项
+                * el
+                * template
+                * render
+                > 优先级：render > template > el
+
+            * Vue渲染步骤
+                1. 先查看是否有render函数，有则直接渲染，没有则进入第2步
+                2. 查看是否有template选项，有则把template中的代码编译成render函数再渲染，没有则进入第3步
+                3. 查看是否有el选项（或$mount()），有则把el对应节点的outerHTML作为template，再编译到render函数并渲染
+         */
+
+         
+         const vm = new Vue({
+             data:{
+                qty:10
+             },
+            //  el:'#app',
+             template:`<div>hello</div>`,
+             render(createElement){
+                return createElement(
+                    'div',
+                    {class:{box:true}},
+                    'render function'
+                )
+             },
+             data:{
+
+             }
+         })
+
+         vm.$mount('#app')
+
+    </script>
+</body>
+
+</html>
