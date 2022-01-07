@@ -1066,5 +1066,98 @@
             * beforeMount()
             * mounted()
         * 卸载（销毁）阶段
-            
+            > 切断watcher与视图、父子组件、事件等联系
+            * beforeDestroy() -> beforeUnmount
+            * destroyed -> unmounted
         * 更新阶段
+            > 数据修改 -> 创建新的虚拟节点 -> 对比旧的虚拟节点（得到差异项）-(打补丁)-> 生成真实节点-> 渲染到页面
+            * beforeUpdate()
+            * updated()
+    * 学习生命周期要搞懂以下两个问题
+        * 生命周期的执行过程
+        * 生命周期中的每个钩子函数适合做什么
+* 虚拟节点VitualDOM
+    > 一个结构类似于真实DOM的**js对象**
+    * diff算法
+        > 对比虚拟节点前后状态，得到差异项
+    * key的作用
+        > 让diff算法更高效更准确，如果没有提供key，则根据类型匹配，如类型一致（v-for），则按顺序进行对比
+    ```js
+        // 旧的虚拟节点
+        {
+            type:'div',
+            children:[
+                {
+                    type:'h4',
+                    chilren:'生命周期'
+                },
+                {
+                    type:'p',
+                    attrs:{},
+                    on:{},
+                    children:'count:1'
+                },
+                {
+                    type:'button',
+                    on:{},
+                    children:'销毁组件'
+                }
+            ]
+        }
+        
+        // 新的虚拟节点
+        {
+            type:'div',
+            children:[
+                {
+                    type:'h4',
+                    chilren:'生命周期'
+                },
+                {
+                    type:'p',
+                    attrs:{},
+                    on:{},
+                    children:'count:2'
+                },
+                {
+                    type:'button',
+                    on:{},
+                    children:'销毁组件'
+                }
+            ]
+        }
+
+        // 新虚拟节点
+        {
+            type:'div',
+            children:[
+                {
+                    type:'h4',
+                    chilren:'生命周期'
+                },
+                {
+                    type:'p',
+                    attrs:{},
+                    on:{},
+                    children:'count:3', // 4->5->6....->11
+                },
+                {
+                    type:'button',
+                    on:{},
+                    children:'销毁组件'
+                }
+            ]
+        }
+    ```
+* 如何取消ajax请求
+    * 通过设置超时时间
+    * 通过xhr.abort()
+    ```js
+        const xhr = new XMLHttpRequest()
+        xhr.open()
+        xhr.send()
+
+        xhr.timeout = 5000;
+
+        xhr.abort()
+    ```
