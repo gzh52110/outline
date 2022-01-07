@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
 
-console.log('App',App)
+
+// console.log('App',App)
 
 // const path = require('path');
 // import path from 'path';

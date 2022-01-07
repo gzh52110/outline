@@ -1,41 +1,7 @@
 <template>
     <div class="todolist container">
         <TodoHead v-on:add="addItem"></TodoHead>
-        <TodoBody :list="datalist">
-          <!-- 在父组件TodoList生成html结构再传入子组件TodoBody渲染 -->
-          <template v-slot:head="scope">
-            <tr>
-                <th>#{{scope}}</th>
-                <th>todo</th>
-                <th>complete</th>
-                <th>operation</th>
-            </tr>
-          </template>
-          <template v-slot>
-            <tr v-for="(item,index) in datalist" :key="item.id">
-              <td>{{index+1}}</td>
-              <td>{{item.todo}}</td>
-              <td>{{item.done ? 'yes' : 'no'}}</td>
-              <td>
-                <button class="btn btn-primary" @click="completeItem(item.id)">完成</button>
-                <button class="btn btn-danger" @click="removeItem(index)">删除</button>
-              </td>
-            </tr>
-          </template>
-        </TodoBody>
-        <TodoBody :list="datalist" v-slot="{selectItem,selectIds}">
-          <tr v-for="(item,index) in datalist" :key="item.id" @click="selectItem(item.id)">
-              <td><input type="checkbox" :checked="selectIds.includes(item.id)" /></td>
-              <td>{{index+1}}</td>
-              <td>{{item.todo}}</td>
-              <td>{{item.addtime}}</td>
-              <td>{{item.done ? 'yes' : 'no'}}</td>
-              <td>
-                <button class="btn btn-primary" @click="completeItem(item.id)">完成</button>
-                <button class="btn btn-danger" @click="removeItem(index)">删除</button>
-              </td>
-            </tr>
-        </TodoBody>
+        <TodoBody :list="datalist"></TodoBody>
         <TodoFoot :list="datalist"></TodoFoot>
     </div>
 </template>

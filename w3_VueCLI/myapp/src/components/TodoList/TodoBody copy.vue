@@ -1,8 +1,7 @@
 <template>
     <table class="table table-striped">
       <thead>
-          <slot name="head">
-            <tr>
+          <tr>
               <th scope="col">
                   <input type="checkbox" v-model="checkAll" />
               </th>
@@ -11,14 +10,12 @@
               <th scope="col">是否完成</th>
               <th scope="col">添加时间</th>
               <th scope="col">操作</th>
-            </tr>
-          </slot>
+          </tr>
       </thead>
       <tbody>
-        <slot :selectItem="selectItem" :selectIds="selectIds">
           <!-- <tr is="todo-item" v-for="(item,index) in list" :key="item.id" :item="item" :index="index" :select-ids="selectIds" :select-item="selectItem"></tr> -->
           <TodoItem v-for="(item,index) in list" :key="item.id" :item="item" :index="index" :select-ids="selectIds" :select-item="selectItem" />
-        </slot>
+          
       </tbody>
   </table>
 </template>
