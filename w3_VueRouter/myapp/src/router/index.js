@@ -5,6 +5,8 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Reg from '../views/Reg.vue'
 import Mine from '../views/Mine.vue'
+import Discover from '../views/Discover.vue'
+import Cart from '../views/Cart.vue'
 
 // 3.安装vue-router插件
 Vue.use(VueRouter)
@@ -32,6 +34,14 @@ const router = new VueRouter({
     {
       path:'/mine',
       component:Mine
+    },
+    {
+      path:'/discover',
+      component:Discover
+    },
+    {
+      path:'/cart',
+      component:Cart
     },
   ]
 })

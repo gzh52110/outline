@@ -3,7 +3,7 @@
     App
 
     <router-view></router-view>
-    <nav>
+    <!-- <nav>
       <router-link to="/home" tag="span" active-class="active" replace>首页</router-link>
       <router-link to="/login">登录</router-link>
       <router-link to="/reg">注册</router-link>
@@ -11,7 +11,11 @@
     </nav>
 
     <button @click="goto('/mine')">我的</button>
-    <button @click="goto('/login')">登录</button>
+    <button @click="goto('/login')">登录</button> -->
+    <!-- <van-tabbar v-model="active" active-color="#58bc58" @change="changeMenu"> -->
+    <van-tabbar v-model="active" active-color="#f00" route>
+      <van-tabbar-item :icon="item.icon" v-for="item in menu" :key="item.path" :to="item.path" :badge="item.path==='/cart' ? 5 : null">{{item.text}}</van-tabbar-item>
+  </van-tabbar>
   </div>
 </template>
 
@@ -19,6 +23,33 @@
 // import HelloWorld from './components/HelloWorld.vue'
 
 export default {
+  data(){
+    return {
+      active:0,
+      menu:[
+        {
+          path:'/home',
+          text:'首页',
+          icon:'wap-home-o'
+        },
+        {
+          path:'/discover',
+          text:'发现',
+          icon:'eye-o'
+        },
+        {
+          path:'/cart',
+          text:'购物车',
+          icon:'cart-o'
+        },
+        {
+          path:'/mine',
+          text:'我的',
+          icon:'manager-o'
+        },
+      ]
+    }
+  },
   name: 'App',
   components: {
     // HelloWorld
@@ -28,6 +59,12 @@ export default {
   },
   methods:{
     goto(path){
+      this.$router.push(path)
+    },
+    changeMenu(active){
+      console.log('active',active)
+      const {path} = this.menu[active]
+
       this.$router.push(path)
     }
   }

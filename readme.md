@@ -1226,6 +1226,28 @@
                 * forward() 前进
                 * go()      前进与后退
             * $route
+* Vue常见UI框架（组件库）
+    > 所有的UI组件库都是Vue的插件
+    * VantUI        有赞出品
+    * ElementUI     饿了么
+    * ant-design    蚂蚁金服
+    * iView         腾讯出品
+    * Bootstrap 
+    * ....
+
+* 接口地址：http://120.76.247.5:2003
+* 接口文档链接：https://easydoc.net/s/58934052   密码：4wSFKBYp
+* axios
+    * axios(config)
+    * axios.get(url,config)
+    * axios.post(url,data,config)
+    * axios.put(url,data,config)
+    * axios.patch(url,data,config)
+    * axios.delete(url,config)
+    * config
+        * params
+        * data
+        * headers
 
 ### 练习
 * 基于NodeJS项目配置页面路由
