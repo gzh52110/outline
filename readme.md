@@ -1161,3 +1161,75 @@
 
         xhr.abort()
     ```
+
+
+## day4-1
+
+### 知识点
+* Vue-Router
+    * 多页面应用（MPA：Multiple Page Application）
+    * 单页Web应用（SPA: Single Page Application）
+        > Vue-router允许我们通过不同的 URL 访问不同的内容。实现多视图的单页Web应用
+    * 使用步骤
+        1. 安装
+            ```bash
+                npm install vue-router
+            ```
+        2. 引用
+            ```js
+                import VueRouter from 'vue-router'
+            ```
+        3. 安装插件
+            > 安装插件时，注册了`<router-view>`与`<router-link>`全局组件
+            ```js
+                Vue.use(VueRouter)
+
+                // Vue.component('router-view',{})
+                // Vue.component('router-link',{})
+            ```
+        4. 实例化路由并配置参数
+            ```js
+                const router = new VueRouter({
+
+                })
+            ```
+        5. 把router实例注入到Vue实例
+            > 注入后，Vue会给每个组件实例添加`$router`与`$route`属性
+            * $router: 路由实例 
+            * $route: 当前路由对象（保存当前路由信息）
+            ```js
+                new Vue({
+                    //...
+                    router:router
+                })
+            ```
+        6. 在组件中使用路由
+            * 使用`<router-view>`渲染路由组件
+
+    * 路由类型: mode
+        * hash路由: 地址带丑陋的#
+        * history路由：更像一个网站
+    * 路由跳转
+        * 声明式导航：`<router-link>`
+            * to
+            * replace
+            * active-class
+            * ...
+        * 编程式导航
+            > 利用js进行跳转
+            * $router
+                * push()        跳转并留下浏览记录
+                    > `<router-link to>`
+                * replace()     跳转不留下浏览记录
+                    > `<router-link to replace>`
+                * back()    回退
+                * forward() 前进
+                * go()      前进与后退
+            * $route
+
+### 练习
+* 基于NodeJS项目配置页面路由
+    * /home
+    * /reg
+    * /login
+    * ...
