@@ -1260,6 +1260,46 @@
 
 ## day4-2
 
+### 面试题
+* 如何在子组件修改父组件的数据
+    > 子组件不能直接修改父组件传入的数据（不能修改props）
+    * 把父组件的方法传入子组件执行（父组件的方法修改父组件的数据）
+    * 自定义事件（把父组件方法作为事件处理函数）
+        * 常规写法
+            ```js
+                //App{num:10}->Home->List,Page
+
+                // 父组件App代码
+                <List v-on:changenum="changeNum"/>
+
+                // 子组件List代码
+                this.$emit('changenum',20)
+            ```
+        * 利用v-bind的**sync修饰符**简化自定义事件写法
+            ```js
+                //App{num:10}->Home->List,Page
+
+                // 父组件App代码
+                <List v-bind:num.sync="num" />
+                // 等效于以下代码
+                // <List v-on:update:num="num=$event">
+
+                // 子组件List代码
+                this.$emit('update:num',20)
+            ```
+
+    * 利用组件层级关系实现修改
+        > 通过$parent获取父组件实例，并修改它的数据
+        * $parent
+        ```js
+            // Child
+            this.$parent.num++
+        ```
+* 在父组件修改子组件数据
+    * $children （Vue3不支持）
+    * ref
+
+
 ### 知识点
 * 路由传参
     * 跳转传参
@@ -1270,3 +1310,6 @@
             * 动态路由
                 > params方式给动态路由传参，只支持name方式跳转
 * hard code 硬编码（写死）
+
+### 练习
+* 实现下拉刷新效果

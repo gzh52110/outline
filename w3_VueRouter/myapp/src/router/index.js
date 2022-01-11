@@ -9,6 +9,7 @@ import Discover from '../views/Discover.vue'
 import Cart from '../views/Cart.vue'
 import Search from '../views/Search.vue'
 import Goods from '../views/Goods.vue'
+import Category from '../views/Category.vue'
 
 // 3.安装vue-router插件
 Vue.use(VueRouter)
@@ -56,6 +57,11 @@ const router = new VueRouter({
       name:'Goods',
       path:'/goods/:id',
       component:Goods
+    },
+    {
+      name:'Category',
+      path:'/list',
+      component:Category
     },
   ]
 })

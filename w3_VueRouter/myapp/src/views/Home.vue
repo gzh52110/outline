@@ -14,6 +14,11 @@
                 />
             </van-swipe-item>
         </van-swipe>
+        <!-- 分类 -->
+        <van-grid :column-num="3">
+            <van-grid-item icon="photo-o" :text="item.text" v-for="item in categories" :key="item._id" @click="$router.push('/list?cat='+item.text)" />
+        </van-grid>
+
         <!-- 最新商品列表 -->
         <div class="goodslist">
             <h4>最新商品</h4>
@@ -50,10 +55,12 @@ export default {
         return {
             keyword:'百达翡丽',
             hotlist:[],
-            newlist:[]
+            newlist:[],
+            categories:[]
         }
     },
     created(){
+        
         // 热门商品（轮播图）
         this.$request.get('/goods',{
             params:{
@@ -71,6 +78,16 @@ export default {
             }
         }).then(({data})=>{
             this.newlist = data.data.result;
+        })
+
+
+        // 分类
+        this.$request.get('/category',{
+            params:{
+                size:6
+            }
+        }).then(({data})=>{
+            this.categories = data.data.result;
         })
         
     },

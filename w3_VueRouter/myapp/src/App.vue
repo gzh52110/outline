@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" style="padding-bottom:50px;">
     <router-view></router-view>
     <!-- <nav>
       <router-link to="/home" tag="span" active-class="active" replace>首页</router-link>
@@ -11,7 +11,7 @@
     <button @click="goto('/mine')">我的</button>
     <button @click="goto('/login')">登录</button> -->
     <!-- <van-tabbar v-model="active" active-color="#58bc58" @change="changeMenu"> -->
-    <van-tabbar v-model="active" active-color="#f00" route>
+    <van-tabbar v-model="active" active-color="#f00" route v-if="showMenu">
       <van-tabbar-item :icon="item.icon" v-for="item in menu" :key="item.path" :to="item.path" :badge="item.path==='/cart' ? 5 : null">{{item.text}}</van-tabbar-item>
   </van-tabbar>
   </div>
@@ -23,6 +23,8 @@
 export default {
   data(){
     return {
+      // num:10,
+      showMenu:true,
       active:0,
       menu:[
         {
@@ -65,7 +67,10 @@ export default {
 
       this.$router.push(path)
     }
-  }
+  },
+  // changeNum(newNum){
+  //   this.num = newNum
+  // }
 }
 </script>
 
@@ -86,5 +91,8 @@ nav .active{color:#00f}
     @extend del;
     color:#f00;
   }
+}
+main{
+  padding:15px;
 }
 </style>
