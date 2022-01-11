@@ -1,7 +1,5 @@
 <template>
   <div id="app">
-    App
-
     <router-view></router-view>
     <!-- <nav>
       <router-link to="/home" tag="span" active-class="active" replace>首页</router-link>
@@ -71,18 +69,22 @@ export default {
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="scss">
 nav a{
   margin:0 5px;
 }
 nav .router-link-active{color:#f00}
 nav .active{color:#00f}
+.price{
+  del{
+    color:#666;margin-right:5px;
+    &::before{
+      content:'￥'
+    }
+  }
+  span{
+    @extend del;
+    color:#f00;
+  }
+}
 </style>

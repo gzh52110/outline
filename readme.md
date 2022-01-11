@@ -1184,8 +1184,8 @@
             ```js
                 Vue.use(VueRouter)
 
-                // Vue.component('router-view',{})
-                // Vue.component('router-link',{})
+                // Vue.component('RouterView',{})
+                // Vue.component('RouterLink',{})
             ```
         4. 实例化路由并配置参数
             ```js
@@ -1226,6 +1226,8 @@
                 * forward() 前进
                 * go()      前进与后退
             * $route
+* 动态组件
+    > 根据不同的条件渲染相应的内容
 * Vue常见UI框架（组件库）
     > 所有的UI组件库都是Vue的插件
     * VantUI        有赞出品
@@ -1255,3 +1257,16 @@
     * /reg
     * /login
     * ...
+
+## day4-2
+
+### 知识点
+* 路由传参
+    * 跳转传参
+        * query: 问号后的参数
+            > 接收：this.$route.query
+        * params
+            > 接收：this.$route.params
+            * 动态路由
+                > params方式给动态路由传参，只支持name方式跳转
+* hard code 硬编码（写死）

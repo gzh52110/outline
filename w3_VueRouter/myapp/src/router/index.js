@@ -7,6 +7,8 @@ import Reg from '../views/Reg.vue'
 import Mine from '../views/Mine.vue'
 import Discover from '../views/Discover.vue'
 import Cart from '../views/Cart.vue'
+import Search from '../views/Search.vue'
+import Goods from '../views/Goods.vue'
 
 // 3.安装vue-router插件
 Vue.use(VueRouter)
@@ -42,6 +44,18 @@ const router = new VueRouter({
     {
       path:'/cart',
       component:Cart
+    },
+    {
+      path:'/search',
+      component:Search
+    },
+
+    // /goods,/goods/123
+    // 建议给复杂路径路由命名
+    {
+      name:'Goods',
+      path:'/goods/:id',
+      component:Goods
     },
   ]
 })
