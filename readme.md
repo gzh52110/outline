@@ -1301,15 +1301,148 @@
 
 
 ### 知识点
+* 通过组件层级操作数据
+    > 组件组合在一起后就形成了组件树，就有了父子关系
+    * 在子组件操作父组件数据:`$parent`
+        ```js
+            Child.$parent.num++
+        ```
+    * 在父组件操作子组件数据
+        * `$children`
+            ```js
+                Parent.$children[0].qty++
+                Parent.$children[0].getData()
+            ```
+        * ref（推荐）
+            ```js
+                // 父组件代码
+                <Child ref="c"/>
+
+                this.$refs.c.qty++
+                this.$refs.c.getData()
+            ```
 * 路由传参
     * 跳转传参
         * query: 问号后的参数
             > 接收：this.$route.query
+            ```js
+                this.$router.push('/list?cat=xxx&page=1')
+                this.$router.push({
+                    path:'/list',
+                    query:{
+                        cat:'xxx',
+                        page:1
+                    }
+                })
+            ```
         * params
             > 接收：this.$route.params
             * 动态路由
                 > params方式给动态路由传参，只支持name方式跳转
+                ```js
+                    // {name:'Goods',path:'/goods/:id',component:Goods}
+                    this.$router.push('/goods/123')
+                    // 以下代码无法跳转
+                    this.$router.push({
+                        path:'/goods',
+                        params:{id:'123'}
+                    })
+
+                    this.$router.push({
+                        name:'Goods',
+                        params:{id:'123'}
+                    })
+                ```
 * hard code 硬编码（写死）
+* 封装axios
+    > 二次封装
+    ```js
+        axios.get('http://xxxx.com/api/goods')
+
+        const instance = axios.create({
+            baseURL:'http://xxxx.com/api'
+        })
+
+        const {data} = await instance.get('/goods',{
+            params:{}
+        })
+
+        function request(config){
+            return instance(config)
+        }
+
+        request.get = async function(url,data,config={}){
+            config.params = data;
+            const {data} = await instance.get(url,config)
+            return data;
+        }
+        
+        const {data} = await request.get()
+        data.data.result;
+    ```
 
 ### 练习
 * 实现下拉刷新效果
+
+
+## day4-3
+
+### 知识点
+* 监听动态路由变化
+    * watch
+    * 路由守卫
+        * beforeRouteUpdate
+    ```js
+        // /goods/60377657ef13c32cd88706fb -> 
+        // /goods/60377657ef13c32cd88706fc
+        // /goods/1(Goods) -> /goods/2(Goods)
+    ```
+* 路由守卫
+    * 应用场景
+        * 控制页面访问权限
+    * 分类
+        * 组件内的守卫
+            > 写在组件配置中，类似于生命周期函数
+            * beforeRouteUpdate()   动态路由切换时执行
+            * beforeRouteEnter()
+            * beforeRouteLeave()
+        * 路由独享守卫
+            > 写在路由配置中
+            * beforeEnter()
+        * 全局守卫
+            > 是路由实例的方法，一般写在路由配置文件中
+            * router.beforeEach(fn)
+                * to
+                * from
+                * next()
+            * router.afterEach(fn)
+                * to
+                * from
+            * router.beforeResolve(fn)
+                * to
+                * from
+                * next()
+    * 完整的导航解析流程
+        > 一个路由跳转经历的步骤
+        * 动态路由（组件复用）
+            1. 导航被触发。
+            2. 调用全局的 beforeEach 守卫。
+            3. 在重用的组件里调用 beforeRouteUpdate 守卫 (2.2+)。
+            4. 调用全局的 beforeResolve 守卫 (2.5+)。
+            5. 导航被确认。
+            6. 调用全局的 afterEach 钩子。
+            7. 触发 DOM 更新。
+        * 一般路由
+            > /home(Home) -> /goods/123(Goods)
+            >> 路由跳转 -> 组件渲染
+
+            1. 导航被触发。
+            2. 在失活的组件里调用beforeRouteLeave离开守卫。
+            3. 调用全局的 beforeEach 守卫。
+            4. 在路由配置里调用 beforeEnter。
+            5. 解析异步路由组件。
+            6. 在被激活的组件里调用 beforeRouteEnter。
+            7. 调用全局的 beforeResolve 守卫 (2.5+)。
+            8. 导航被确认。
+            9. 调用全局的 afterEach 钩子。
+            10. 触发 DOM 更新。

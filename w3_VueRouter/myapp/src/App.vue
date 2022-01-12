@@ -55,7 +55,7 @@ export default {
     // HelloWorld
   },
   created(){
-    console.log('App',this);
+    // console.log('App',this);
   },
   methods:{
     goto(path){

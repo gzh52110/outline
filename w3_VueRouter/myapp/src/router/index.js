@@ -56,7 +56,13 @@ const router = new VueRouter({
     {
       name:'Goods',
       path:'/goods/:id',
-      component:Goods
+      component:Goods,
+
+      // 路由独享守卫
+      beforeEnter(to,from,next){
+        console.log('Goods.beforeEnter')
+        next();
+      }
     },
     {
       name:'Category',
@@ -66,4 +72,17 @@ const router = new VueRouter({
   ]
 })
 
+
+// 全局路由守卫
+router.beforeEach(function(to,from,next){
+  console.log('beforeEach')
+  next();
+})
+router.beforeResolve(function(to,from,next){
+  console.log('beforeResolve')
+  next();
+})
+router.afterEach(function(to,from){
+  console.log('afterEach')
+})
 export default router;

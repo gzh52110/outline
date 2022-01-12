@@ -10,7 +10,7 @@
                 <van-icon name="arrow-left" size="20" style="margin-right:10px" @click="$router.back()" />
                 <van-icon name="wap-home-o" size="20" @click="$router.push('/home')" />
             </template>
-            
+
             <template #right>
                 <van-icon name="share-o" size="20" />
             </template>
@@ -32,6 +32,31 @@
                 <span>{{data.sales_price}}</span>
             </p>
         </main>
+        <div class="goodslist">
+            <h4>{{data.category}}相关商品</h4>
+            <van-row gutter="20">
+                <van-col span="12" v-for="item in goodslist" :key="item._id">
+                    <van-image
+                        fit="cover"
+                        width="100%"
+                        height="100"
+                        :src="$host + item.img_url"
+                        @click="$router.push('/goods/'+item._id)"
+                        lazy-load
+                    >
+                        <template v-slot:loading>
+                            <van-loading type="spinner" size="20" />
+                        </template>
+                    </van-image>
+                    <h5 class="van-multi-ellipsis--l3">{{item.goods_name}}</h5>
+                    <p class="price">
+                        <del>{{item.price}}</del>
+                        <span>{{item.sales_price}}</span>
+                    </p>
+                </van-col>
+            </van-row>
+
+        </div>
         <van-goods-action>
             <van-goods-action-icon icon="chat-o" text="客服" color="#ee0a24" />
             <van-goods-action-icon icon="cart-o" text="购物车" />
@@ -46,25 +71,73 @@ export default {
   name: "Goods",
   data() {
     return {
-      data: {}
+      data: {},
+      goodslist:[]
     };
+  },
+  // 监听路由变化
+  watch:{
+    //   '$route.params.id':function(n,o){
+    //       console.log(n,o);
+    //       this.getData(n);
+    //   },
+      // 监听category变化：只有在category发生变化时才发起请求
+      'data.category':function(){
+          this.getList();
+      }
   },
   created() {
     const { id } = this.$route.params;
     this.getData(id);
 
     // 隐藏tabbar
-    console.log("Goods", this);
+    console.log("Goods.created", this);
     this.$parent.showMenu = false;
+
+    
   },
   destroyed() {
+      console.log('Goods.destroyed')
     this.$parent.showMenu = true;
+  },
+  // 组件内路由守卫
+  beforeRouteUpdate(to,from,next){
+      // to: 目标地址（想去哪里），属性与$route一致
+      // from: 来源地址（从哪来），属性与$route一致
+      // next(): 放行
+      console.log('Goods.beforeRouteUpdate')
+      this.getData(to.params.id)
+
+      next();
+    //    console.log('next()',this.$route.params.id)
+  },
+  beforeRouteEnter(to,from,next){
+      console.log('Goods.beforeRouteEnter',this)
+      // 只允许从首页进入
+    //   if(from.path === '/home')
+      next();
+  },
+  beforeRouteLeave(to,from,next){
+      console.log('Goods.beforeRouteLeave')
+      next();
   },
   methods: {
     async getData(id) {
       const { data } = await this.$request("/goods/" + id);
 
       this.data = data.data;
+
+      
+    },
+    async getList(){
+        // 获取同类商品
+        const { data } = await this.$request.get('/goods',{
+            params:{
+                category:this.data.category,
+                size:6,
+            }
+        })
+        this.goodslist = data.data.result;
     }
   }
 };

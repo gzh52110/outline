@@ -120,7 +120,16 @@ export default {
 
             // 以上两种写法等效
         }
-    }
+    },
+
+    beforeRouteEnter(to,from,next){
+      console.log('Home.beforeRouteEnter')
+      next();
+    },
+    beforeRouteLeave(to,from,next){
+        console.log('Home.beforeRouteLeave')
+        next();
+    },
 }
 </script>
 <style>
