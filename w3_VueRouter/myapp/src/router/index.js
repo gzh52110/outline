@@ -36,7 +36,11 @@ const router = new VueRouter({
     },
     {
       path:'/mine',
-      component:Mine
+      component:Mine,
+
+      meta:{
+        requiresAuth:true
+      }
     },
     {
       path:'/discover',
@@ -44,7 +48,12 @@ const router = new VueRouter({
     },
     {
       path:'/cart',
-      component:Cart
+      component:Cart,
+
+      // 路由元信息：给路由添加一些额外的信息，用于进行相应的业务逻辑
+      meta:{
+        requiresAuth:true
+      }
     },
     {
       path:'/search',
@@ -76,7 +85,41 @@ const router = new VueRouter({
 // 全局路由守卫
 router.beforeEach(function(to,from,next){
   console.log('beforeEach')
-  next();
+  if(to.meta.requiresAuth){
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    console.log('userInfo',userInfo)
+    // 判断是否登录
+    // 登录:放行
+    if(userInfo.authorization){
+      next();
+
+      router.app.$request.get('/user/verify',{
+        headers:{
+          Authorization:userInfo.authorization
+        }
+      }).then(({data})=>{
+        if(data.code === 401){
+          // token已失效或被篡改
+          router.push({
+            path:'/login',
+            query:{
+              targetUrl:to.fullPath
+            }
+          })
+        }
+      })
+    }else{
+      // 没有登录：跳到登录页面
+      router.push({
+        path:'/login',
+        query:{
+          targetUrl:to.fullPath
+        }
+      })
+    }
+  }else{
+    next();
+  }
 })
 router.beforeResolve(function(to,from,next){
   console.log('beforeResolve')
@@ -85,4 +128,5 @@ router.beforeResolve(function(to,from,next){
 router.afterEach(function(to,from){
   console.log('afterEach')
 })
+
 export default router;

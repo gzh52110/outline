@@ -41,7 +41,7 @@ export default {
     };
   },
   created() {
-      console.log('Login',this)
+    console.log("Login", this);
     const { username } = this.$route.query;
     if (username) {
       this.username = username;
@@ -87,15 +87,18 @@ export default {
 
       const { data } = await this.$request.post("/login", values);
       if (data.code === 200) {
-        this.$router.push({
-          path: "/mine"
-        });
-        this.$toast('登录成功')
+        this.$toast("登录成功");
         // 把用户信息存入本地
         localStorage.setItem("userInfo", JSON.stringify(data.data));
+
+        // 获取用户访问的目标页面
+        const { targetUrl = "/mine" } = this.$route.query;
+        this.$router.push({
+          path: targetUrl
+        });
       } else if (data.code === 401) {
         // Notify({ type: "danger", message: "用户名或密码错误" });
-        this.$notify({ type: "danger", message: "用户名或密码错误" })
+        this.$notify({ type: "danger", message: "用户名或密码错误" });
       }
     }
   }

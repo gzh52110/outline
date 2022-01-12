@@ -95,4 +95,7 @@ nav .active{color:#00f}
 main{
   padding:15px;
 }
+.has-navbar{
+  padding-top:46px;
+}
 </style>
