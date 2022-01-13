@@ -1390,13 +1390,25 @@
 ### 知识点
 * 监听动态路由变化
     * watch
+        ```js
+            watch:{
+                '$route.params.id':function(){
+                    // ajax
+                }
+            }
+        ```
     * 路由守卫
         * beforeRouteUpdate
-    ```js
-        // /goods/60377657ef13c32cd88706fb -> 
-        // /goods/60377657ef13c32cd88706fc
-        // /goods/1(Goods) -> /goods/2(Goods)
-    ```
+        ```js
+            // /goods/60377657ef13c32cd88706fb -> 
+            // /goods/60377657ef13c32cd88706fc
+            // /goods/1(Goods) -> /goods/2(Goods)
+            beforeRouteUpdate(to,from,next){
+
+                next();
+
+            }
+        ```
 * 路由守卫
     * 应用场景
         * 控制页面访问权限
@@ -1452,7 +1464,40 @@
             8. 导航被确认。
             9. 调用全局的 afterEach 钩子。
             10. 触发 DOM 更新。
+* 购物车页面效果
 
 ### 练习
 * 完成购物车批量删除效果
 * 实现添加到购物车效果
+
+
+## day4-4
+
+### 知识点
+* 子路由（嵌套路由）
+    * 路由配置：children
+    * 添加router-view组件
+* 路由重定向
+    * redirect
+* 过渡效果
+    * `<transition>`
+    * `<transition-group/>`
+        ```html
+            <transition>
+                <div v-show="show"></div>
+            </transition>
+            <transition-group>
+                <div v-if="show"></div>
+                <span v-if="show"></span>
+            </transition-group>
+            <transition>
+                <router-view/>
+            <transition>
+        ```
+    * 触发动画条件
+        1. 设置过渡动过
+            > 可以是css或js
+        2. 必须有进场或出场状态
+            * 条件渲染 (使用 v-if)
+            * 条件展示 (使用 v-show)
+            * 动态组件 (component或router-view)
