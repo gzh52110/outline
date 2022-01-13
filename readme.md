@@ -1501,3 +1501,14 @@
             * 条件渲染 (使用 v-if)
             * 条件展示 (使用 v-show)
             * 动态组件 (component或router-view)
+* 保持滚动条位置滚动行为:scrollBehavior
+    > 路由切换出去时会保留当前滚动条位置信息(savePosition对象)，当返回该路由时自动执行scrollBehavior
+
+* 缓存组件：`<keep-alive/>`
+    > 保持组件状态
+    * 属性
+        * include
+        * exclude
+    * 钩子函数
+        * activated
+        * deactivated

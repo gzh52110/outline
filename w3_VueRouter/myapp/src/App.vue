@@ -1,6 +1,9 @@
 <template>
   <div id="app" style="padding-bottom:50px;">
-    <router-view></router-view>
+    <!-- <keep-alive include="Search,Goods"> -->
+    <keep-alive :include="/Search|Goods/">
+      <router-view></router-view>
+    </keep-alive>
     <!-- <nav>
       <router-link to="/home" tag="span" active-class="active" replace>首页</router-link>
       <router-link to="/login">登录</router-link>
@@ -11,9 +14,11 @@
     <button @click="goto('/mine')">我的</button>
     <button @click="goto('/login')">登录</button> -->
     <!-- <van-tabbar v-model="active" active-color="#58bc58" @change="changeMenu"> -->
+    
     <van-tabbar v-model="active" active-color="#f00" route v-if="showMenu">
-      <van-tabbar-item :icon="item.icon" v-for="item in menu" :key="item.path" :to="item.path" :badge="item.path==='/cart' ? 5 : null">{{item.text}}</van-tabbar-item>
+      <van-tabbar-item :icon="item.icon" v-for="item in menu" :key="item.path" :to="item.path" :badge="item.path==='/cart' ? cartlist.length : null">{{item.text}}</van-tabbar-item>
   </van-tabbar>
+    
   </div>
 </template>
 
@@ -23,6 +28,7 @@
 export default {
   data(){
     return {
+      cartlist:[],
       // num:10,
       showMenu:true,
       active:0,
@@ -56,6 +62,15 @@ export default {
   },
   created(){
     // console.log('App',this);
+    let cartlist = localStorage.getItem("cartlist");
+    try {
+      cartlist = JSON.parse(cartlist) || [];
+    } catch (err) {
+      cartlist = [];
+    }
+
+    this.cartlist = cartlist;
+
   },
   methods:{
     goto(path){

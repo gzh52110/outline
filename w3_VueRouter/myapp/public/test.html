@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Storage事件</h1>
+    <script>
+        // 对本地存储数据进行修改时，不会触发当前页面的onstorage事件
+        window.onstorage = function(e){
+            console.log('storage',e)
+        }
+    </script>
+</body>
+</html>

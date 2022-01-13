@@ -126,8 +126,26 @@ const router = new VueRouter({
       path:'*',
       redirect:'/notfound'
     }
-  ]
-})
+  ],
+  scrollBehavior(to, from, savePosition){
+    // savePosition：一个保存水平与垂直滚动条位置的对象
+    console.log('scrollBehavior',to.path,savePosition)
+    // return {x:0,y:200}
+    // return savePosition
+
+    // 如果页面的滚动条是靠数据产生的，则必须等数据渲染到页面后才return savePosition
+    
+    return savePosition ? new Promise(resolve=>{
+      setTimeout(()=>{
+        resolve({...savePosition,behavior: 'smooth'})
+      },1000)
+      // Vue.nextTick(()=>{
+      //   console.log('nextTick')
+      //   resolve(savePosition)
+      // })
+    }): null;
+  }
+});
 
 
 // 全局路由守卫
