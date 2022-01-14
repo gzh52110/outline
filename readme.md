@@ -1575,7 +1575,36 @@
             > 修改state的唯一方式，调用方式：`store.commit(mutation,payload)`
         * getters
             > 类似与组件中的computed，获取方式：`store.getters.xx`
+        * actions   
+            > 负责异步操作（actions中可以包含异步操作, mutations中绝对不允许出现异步），actions用来操作mutations，而mutations用来操作state
+* 在组件中修改vuex数据
+    * 同步操作：mutation
+    * 异步操作：
+        * 在组件中发起ajax -> mutation
+        * action -> mutation
 
+* vuex模块化: modules
+    > 模块化后，默认只影响state的获取，getters,mutations,actions还是保存在全局状态（设置`namespaced`命名空间后让getters,mutations,actions具有自己的命名空间）
+
+* Vuex映射
+    * mapState      把vuex中的state映射到组件的computed
+    * mapGetters    把vuex中的getters映射到组件的computed
+    * mapMutations  把mutations映射到组件的methods
+    * mapActions    把actions映射到组件的methods
+
+* Vuex使用一些建议
+    1. 获取vuex中的数据建议放在computed中
+        ```js
+            <div>{{$store.state.cart.cartlist.length}}</div>
+
+            computed:{
+                cartlength(){
+                    return this.$store.state.cart.cartlist.length
+                }
+            }
+            <div>{{cartlength}}</div>
+        ```
+    2. 修改vuex中的数据建议放在methods中
 
 ### 练习
 * 实现清空购物车效果

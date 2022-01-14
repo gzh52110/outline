@@ -15,7 +15,10 @@ export default {
     name:'Mine',
     computed:{
         userInfo(){
-            return this.$store.state.userInfo
+            // return this.$store.state.userInfo
+
+            // 模块化后获取state的变化
+            return this.$store.state.user.userInfo
         },
         isLogin(){
             return this.$store.getters.isLogin

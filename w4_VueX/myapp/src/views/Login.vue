@@ -50,19 +50,30 @@ export default {
   methods: {
     async onSubmit(values) {
       console.log("values", values);
-      const { data } = await this.$request.post("/login", values);
-      if (data.code === 200) {
-        this.$toast("登录成功");
+      // const { data } = await this.$request.post("/login", values);
+      // if (data.code === 200) {
+      //   this.$toast("登录成功");
         
-        this.$store.commit('login',data.data)
+      //   this.$store.commit('login',data.data)
 
-        // 获取用户访问的目标页面
+      //   // 获取用户访问的目标页面
+      //   const { targetUrl = "/mine" } = this.$route.query;
+      //   this.$router.push({
+      //     path: targetUrl
+      //   });
+      // } else if (data.code === 401) {
+      //   // Notify({ type: "danger", message: "用户名或密码错误" });
+      //   this.$notify({ type: "danger", message: "用户名或密码错误" });
+      // }
+
+      const data = await this.$store.dispatch('login',values);
+
+      if(data.code === 200){
         const { targetUrl = "/mine" } = this.$route.query;
         this.$router.push({
           path: targetUrl
         });
       } else if (data.code === 401) {
-        // Notify({ type: "danger", message: "用户名或密码错误" });
         this.$notify({ type: "danger", message: "用户名或密码错误" });
       }
     }

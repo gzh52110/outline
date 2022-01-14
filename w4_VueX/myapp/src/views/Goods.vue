@@ -78,7 +78,8 @@ export default {
   },
   computed:{
     cartlist(){
-      return this.$store.state.cartlist
+      // return this.$store.state.cartlist
+      return this.$store.state.cart.cartlist
     }
   },
   // 监听路由变化
@@ -167,7 +168,9 @@ export default {
         const current = this.cartlist.find((item)=>item._id === _id)
 
         if(current){
-            current.qty++;
+            // current.qty++;
+            // this.$store.commit('changeGoodsQty',{id:_id,qty:current.qty+1})
+            this.$store.commit('cart/changeGoodsQty',{id:_id,qty:current.qty+1})
         }else{
             const newGoods = {
                 _id,
@@ -179,7 +182,8 @@ export default {
             }
 
             // this.cartlist.unshift(newGoods)
-            this.$store.commit('addToCart',newGoods)
+            // this.$store.commit('addToCart',newGoods)
+            this.$store.commit('cart/addToCart',newGoods)
         }
 
         

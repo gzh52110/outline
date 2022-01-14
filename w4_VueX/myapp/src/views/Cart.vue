@@ -63,6 +63,7 @@
     </div>
 </template>
 <script>
+import {mapMutations,mapActions} from 'vuex'
 export default {
   name: "Cart",
   data() {
@@ -89,7 +90,7 @@ export default {
           }
       },
       cartlist(){
-          return this.$store.state.cartlist
+          return this.$store.state.cart.cartlist
       }
   },
   methods:{
@@ -104,24 +105,49 @@ export default {
               this.selectIds.push(id);
           }
       },
-      removeItem(id){
-          this.$dialog.confirm({
-            title: '确认删除',
-            message: 'are you 确定',
-        })
-        .then(() => {
-            this.$store.commit('removeFromCart',id);
-        })
+    //   removeItem(id){
+    //       this.$dialog.confirm({
+    //         title: '确认删除',
+    //         message: 'are you 确定',
+    //     })
+    //     .then(() => {
+    //         // this.$store.commit('removeFromCart',id);
+
+    //         // 设置命名空间后的写法
+    //         this.$store.commit('cart/removeFromCart',id);
+    //     })
         
           
-      },
-      changeQty(value,detail){
-          console.log('changeQTy',value,detail)
-          this.$store.commit('changeGoodsQty',{id:detail.name,qty:value})
-      }
+    //   },
+    //   changeQty(value,detail){
+    //       console.log('changeQTy',value,detail)
+    //       this.$store.commit('cart/changeGoodsQty',{id:detail.name,qty:value})
+    //   }
+    // ...mapMutations({
+    //     changeQty:'cart/changeGoodsQty',
+    //     removeItem:'cart/removeFromCart'
+    // }),
+    ...mapMutations('cart',{
+        // changeQty:'changeGoodsQty',
+        // removeItem:'removeFromCart',
+        changeQty(commit,value,detail){
+            commit('changeGoodsQty',{id:detail.name,qty:value})
+        },
+        removeItem(commit,id){
+            this.$dialog.confirm({
+                title: '确认删除',
+                message: 'are you 确定',
+            })
+            .then(() => {
+
+                // 设置命名空间后的写法
+                commit('removeFromCart',id);
+            })
+        }
+    }),
   },
   created(){
-      
+      console.log('Cart',this);
   },
   mounted() {
     this.$parent.showMenu = false;

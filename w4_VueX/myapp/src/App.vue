@@ -26,7 +26,9 @@
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
-
+import {mapState,mapGetters,mapActions,mapMutations} from 'vuex'
+const res = mapState(['a','b','abc'])
+console.log('mapState=',res)
 export default {
   data() {
     return {
@@ -59,15 +61,42 @@ export default {
   },
   name: "App",
   computed: {
-    cartlist() {
-      return this.$store.state.cartlist;
-    },
+    // cartlist() {
+    //   // return this.$store.state.cartlist;
+    //   return this.$store.state.cart.cartlist;
+    // },
     userInfo() {
-      return this.$store.state.userInfo;
+      // return this.$store.state.userInfo;
+      return this.$store.state.user.userInfo;
     },
     isLogin(){
       return this.$store.getters.isLogin;
-    }
+    },
+    cartLen(){
+      return this.$store.getters['cart/cartLen']
+    },
+
+    // mapState
+    ...mapState(['a','b']),
+    ...mapState({
+      num:'a',
+      cartlist2:function(state,getters){
+        return state.cart.cartlist;
+      }
+    }),
+    // 命名空间写法
+    ...mapState('cart',['cartlist']),
+
+    // mapGetters：不支持函数写法
+    // ...mapGetters(['globalData','cart/cartLen']),
+    ...mapGetters({
+      global:'globalData',
+      cartLen:'cart/cartLen',
+    }),
+    // 命名空间写法
+    ...mapGetters('cart',{
+      cartQty:'cartLen'
+    })
   },
   created() {
     // let cartlist = localStorage.getItem("cartlist");

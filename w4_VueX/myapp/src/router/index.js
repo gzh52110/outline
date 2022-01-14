@@ -162,7 +162,7 @@ router.beforeEach(function (to, from, next) {
 
       router.app.$request.get('/user/verify', {
         headers: {
-          Authorization: store.state.userInfo.authorization
+          Authorization: store.state.user.userInfo.authorization
         }
       }).then(({ data }) => {
         if (data.code === 401) {
