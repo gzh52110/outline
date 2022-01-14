@@ -1482,6 +1482,24 @@
 * 过渡效果
     * `<transition>`
     * `<transition-group/>`
+        * 属性
+            * name: 类名前缀（默认：v）
+            * enter-class
+            * enter-active-class
+            * enter-to-class
+            * leave-class
+            * leave-active-class
+            * leave-to-class
+        * 动画类型
+            * 进场动画
+                * v-enter
+                * v-enter-to
+                * v-enter-active
+            * 出场动画
+                * v-leave
+                * v-leave-to
+                * v-leave-active
+            * 
         ```html
             <transition>
                 <div v-show="show"></div>
@@ -1494,8 +1512,9 @@
                 <router-view/>
             <transition>
         ```
+
     * 触发动画条件
-        1. 设置过渡动过
+        1. 设置过渡动画
             > 可以是css或js
         2. 必须有进场或出场状态
             * 条件渲染 (使用 v-if)
@@ -1512,3 +1531,51 @@
     * 钩子函数
         * activated
         * deactivated
+
+## day4-5
+
+### 知识点
+* 数据共享与同步
+* 状态管理工具：Vuex
+    * 使用步骤
+        1. 安装
+            ```bash
+                npm install vuex
+            ```
+        2. 引用
+            ```js
+                import Vuex from 'vuex'
+            ```
+        3. 安装插件
+            ```js
+                Vue.use(Vuex)
+            ```
+        4. 实例化数据仓库:store
+            ```js
+                const store = new Vuex.Store({
+                    // 配置参数
+                })
+            ```
+        5. 注入Vue根实例
+            > Vue给所有的组件实例添加一个$store属性
+            ```js
+                new Vue({
+                    ...
+                    store:store
+                })
+            ```
+        6. 在组件中使用
+            * 获取共享数据
+                * store.state
+            * 修改共享数据
+    * 核心配置
+        * state
+            > 获取：`store.state.xx`
+        * mutations
+            > 修改state的唯一方式，调用方式：`store.commit(mutation,payload)`
+        * getters
+            > 类似与组件中的computed，获取方式：`store.getters.xx`
+
+
+### 练习
+* 实现清空购物车效果
