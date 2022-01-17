@@ -1573,10 +1573,26 @@
             > 获取：`store.state.xx`
         * mutations
             > 修改state的唯一方式，调用方式：`store.commit(mutation,payload)`
+            * 参数
+                * state     状态
+                * payload   调用时传入的参数
         * getters
             > 类似与组件中的computed，获取方式：`store.getters.xx`
+            * 参数
+                * state
+                * getters
+                * rootState
+                * rootGetters
         * actions   
-            > 负责异步操作（actions中可以包含异步操作, mutations中绝对不允许出现异步），actions用来操作mutations，而mutations用来操作state
+            > 负责异步操作（actions中可以包含异步操作, mutations中绝对不允许出现异步），actions用来操作mutations，而mutations用来操作state，调用方式：`store.dispatch(action,payload),store.dispatch({type:action,payload:xx})`
+            * 参数
+                * context   一个与store类似的对象
+                    * state
+                    * rootState
+                    * getters
+                    * rootGetters
+                * payload
+        * modules
 * 在组件中修改vuex数据
     * 同步操作：mutation
     * 异步操作：
@@ -1585,12 +1601,31 @@
 
 * vuex模块化: modules
     > 模块化后，默认只影响state的获取，getters,mutations,actions还是保存在全局状态（设置`namespaced`命名空间后让getters,mutations,actions具有自己的命名空间）
+    ```js
+        // 模块化前 -> 模块化后
+        store.state.xxx -> store.state.[module].xxx
+        store.getters.xxx -> store.getters.xxx
+        store.commit(mutation,payload) -> 一致
+        store.dispatch(action,payload) -> 一致
+
+        // 模块设置命名空间后
+        store.getters.xxx -> store.getters['module/xxx']
+        store.commit(mutation,payload) -> store.commit('module/mutation',payload)
+        store.dispatch(action,payload) -> store.dispatch('module/action',payload)
+    ```
 
 * Vuex映射
-    * mapState      把vuex中的state映射到组件的computed
-    * mapGetters    把vuex中的getters映射到组件的computed
-    * mapMutations  把mutations映射到组件的methods
-    * mapActions    把actions映射到组件的methods
+    * mapState()      把vuex中的state映射到组件的computed
+    * mapGetters()    把vuex中的getters映射到组件的computed
+        > 不支持对象函数写法
+    * mapMutations()  把mutations映射到组件的methods
+    * mapActions()    把actions映射到组件的methods
+
+    ```js
+        mapState(['a','b'])
+        mapState({apple:'a',b:function(state){}})
+        mapState('cart',{b:function(state){}})
+    ```
 
 * Vuex使用一些建议
     1. 获取vuex中的数据建议放在computed中
