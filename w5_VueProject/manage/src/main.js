@@ -3,7 +3,7 @@ import App from './App.vue'
 
 import router from './router'
 import store from './store'
-import request from './utils/request'
+import request,{host} from './utils/request'
 
 // 全局引入
 // import ElementUI from 'element-ui';
@@ -38,7 +38,10 @@ import {
   Notification,
   Menu,
   MenuItem,
-  Submenu
+  Submenu,
+  Table,
+  TableColumn,
+  Pagination
 } from 'element-ui';
 
 
@@ -60,6 +63,9 @@ Vue.use(Image);
 Vue.use(Submenu);
 Vue.use(Menu);
 Vue.use(MenuItem);
+Vue.use(Table);
+Vue.use(TableColumn);
+Vue.use(Pagination);
   
 
 Vue.use(Loading.directive);
@@ -72,6 +78,7 @@ Vue.prototype.$notify = Notification;
 Vue.prototype.$message = Message;
 
 Vue.prototype.$request = request;
+Vue.prototype.$host = host;
 
 // Vue.use(ElementUI)
 Vue.config.productionTip = false

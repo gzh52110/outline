@@ -19,6 +19,8 @@
                 active-text-color="#ffd04b"
                 style="height:100%"
                 router
+                :default-active="active"
+                :default-openeds="opens"
                 >
                     <template v-for="item in menu">
                     <el-submenu :index="baseUrl + item.path" v-if="item.children" :key="item.path">
@@ -48,6 +50,8 @@ export default {
   name: "Manage",
   data() {
     return {
+      active:'/manage/home',
+      opens:['/manage/goods'],
         baseUrl:'/manage',
       menu: [
         {
