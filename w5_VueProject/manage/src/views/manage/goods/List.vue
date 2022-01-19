@@ -2,7 +2,10 @@
     <div>
         <el-table
       :data="tableData"
-      style="width: 100%">
+      style="width: 100%"
+      row-key="_id"
+      @selection-change="select"
+      >
       <el-table-column type="selection"></el-table-column>
       <el-table-column label="#" type="index"></el-table-column>
       <el-table-column
@@ -46,12 +49,12 @@
 export default {
   name: "GoodsList",
   data() {
-      // 获取地址栏数据，然后写入data
-      const {page=1,size=10} = this.$route.query;
+    // 获取地址栏数据，然后写入data
+    const { page = 1, size = 10 } = this.$route.query;
     return {
       tableData: [],
-      page,
-      size,
+      page:page*1,
+      size:size*1,
       total: 0
     };
   },
@@ -68,26 +71,35 @@ export default {
       });
 
       const { result, total } = data.data;
-
+      result.forEach(item => {
+        // 如果没有商品大图，则把第一张小图用于显示
+        if (item.img_url === undefined && item.imgs) {
+          item.img_url = item.imgs[0];
+        }
+      });
       this.tableData = result;
       this.total = total;
     },
-    changeSize(size){
-        this.size = size;
-        this.getData();
-        // this.$route.query.size = size;
-        this.$router.replace({
-            // path:'/manage/goods/list',
-            query:{...this.$route.query,size}
-        })
+    changeSize(size) {
+      this.size = size;
+      this.getData();
+      // this.$route.query.size = size;
+      this.$router.replace({
+        // path:'/manage/goods/list',
+        query: { ...this.$route.query, size }
+      });
     },
-    changePage(page){
-        this.page = page
-        this.getData();
-        this.$router.replace({
-            // path:'/manage/goods/list',
-            query:{...this.$route.query,page}
-        })
+    changePage(page) {
+      this.page = page;
+      this.getData();
+      this.$router.replace({
+        // path:'/manage/goods/list',
+        query: { ...this.$route.query, page }
+      });
+    },
+    select(selection) {
+      const ids = selection.map(item => item._id);
+      console.log("select", ids);
     }
   }
 };

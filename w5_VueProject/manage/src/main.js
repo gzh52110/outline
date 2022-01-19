@@ -41,7 +41,10 @@ import {
   Submenu,
   Table,
   TableColumn,
-  Pagination
+  Pagination,
+  Select,
+  Option,
+  Switch
 } from 'element-ui';
 
 
@@ -66,6 +69,9 @@ Vue.use(MenuItem);
 Vue.use(Table);
 Vue.use(TableColumn);
 Vue.use(Pagination);
+Vue.use(Select);
+Vue.use(Option);
+Vue.use(Switch);
   
 
 Vue.use(Loading.directive);
