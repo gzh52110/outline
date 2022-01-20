@@ -1645,7 +1645,7 @@
 * 实现清空购物车效果
 
 
-## day5-1
+## day5-1~5
 
 ### 知识点
 * 页面访问权限控制
@@ -1659,3 +1659,61 @@
 * 后台管理系统权限
     > 用户登录后，向服务器请求**权限列表**
     * 页面访问权限
+    * 按钮权限
+    * 数据权限
+
+* axios请求拦截
+    > 请求发出前的操作
+    * 设置请求头：token
+    ```js
+        axios.interceptors.request.use(funciton(config){
+            // 对config进行操作
+            return config;
+        })
+    ```
+* axios响应拦截
+    > 请求响应后的操作
+    ```js
+        axios.interceptors.response.use(funciton(res){
+            // 对res进行操作
+            // res.data = JSON.parse(res.data)
+            return res;
+        })
+    ```
+* 组件二次封装
+    * 简化代码
+* props数据验证
+    ```js
+        // props:['propA','propB']
+        props: {
+            // 基础的类型检查 (`null` 匹配任何类型)
+            propA: Number,
+            // 多个可能的类型
+            propB: [String, Number],
+            // 必填的字符串
+            propC: {
+                type: String,
+                required: true
+            },
+            // 带有默认值的数字，无prop属性传入时，默认得到100
+            propD: {
+                type: Number,
+                default: 100
+            },
+            // 带有默认值的对象
+            propE: {
+                type: Object,
+                // 对象或数组默认值必须从一个工厂函数获取
+                default: function () {
+                return { message: 'hello' }
+                }
+            },
+            // 自定义验证函数
+            myscore: {
+                validator: function (value) {
+                // 这个值必须大于等于60，否则报错
+                return val>=60
+                }
+            }
+        }
+    ```

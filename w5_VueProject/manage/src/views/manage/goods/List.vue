@@ -28,8 +28,10 @@
       </el-table-column>
       <el-table-column
         label="操作"
-        width="180">
-        <el-button type="primary" size="mini" icon="el-icon-edit-outline">编辑</el-button>
+        width="180"
+        v-slot="{row}"
+        >
+        <el-button type="primary" size="mini" icon="el-icon-edit-outline" @click="$router.push('/manage/goods/edit/'+row._id)">编辑</el-button>
         <el-button type="danger" size="mini" icon="el-icon-delete
 ">删除</el-button>
       </el-table-column>
