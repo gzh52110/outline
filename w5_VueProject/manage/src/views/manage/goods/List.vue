@@ -62,6 +62,7 @@ export default {
   },
   created() {
     this.getData();
+    console.log('List.created',this)
   },
   methods: {
     async getData() {

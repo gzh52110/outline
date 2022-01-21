@@ -1717,3 +1717,48 @@
             }
         }
     ```
+* 提取组件公共代码：mixins
+    > mixin选项将会被合并到最终的组件选项中，如出现重名，属性与方法会覆盖（组件覆盖mixin中的同名属性/方法），生命周期函数会共存
+    * 全局mixin: Vue.mixin()
+        > 全局注册一个混入，会影响后面所有创建的每个 Vue 实例/组件（影响较大，一般用于插件编写）
+    * 局部mixin: mixins
+    ```js
+        const myMixin = {
+            // mixin选项与组件选项一致，最终与组件选项进行合并
+            data(){
+                return {}
+            },
+            computed:{
+
+            },
+            methods:{}
+            created(){
+
+            }
+        }
+    ```
+* 插件
+    > 插件是一个函数或一个对象（必须提供 install 方法），并把 Vue 作为参数传入
+    * 定义
+        ```js
+            const myPlugin = function(Vue){
+
+            }
+            const myPlugin = {
+                install:function(Vue){
+
+                }
+            }
+        ```
+    * 使用插件
+        Vue.use(myPlugin)
+
+        ```js
+            Vue.use = function(plugin){
+                if(typeof plugin === 'function'){
+                    plugin(Vue)
+                }else if(typeof plugin === 'object' && plugin.install !== undefined){
+                    plugin.install(Vue)
+                }
+            }
+        ```

@@ -89,6 +89,16 @@ Vue.prototype.$host = host;
 // Vue.use(ElementUI)
 Vue.config.productionTip = false
 
+// 全局mixin
+Vue.mixin({
+  // 这里的选项与组件一致
+  data(){
+    return {
+      myname:'hello'
+    }
+  }
+})
+
 new Vue({
   router,
   store,
